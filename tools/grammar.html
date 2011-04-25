@@ -1,0 +1,623 @@
+<style>
+.Keyword {
+    color:blue;
+}
+.Identifier {
+
+}
+
+.StringLiteral {
+    color:red;
+}
+.Comment {
+    color:green;
+}
+.RegularExpressionLiteral {
+    color:red;
+}
+.LineTerminator {
+    font-size:0px;
+}
+</style >
+<div>
+<textarea id="source" style="font-size:16px;background:transparent;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;border:solid 1px green;display:block;width:100%;height:300px;">
+PrimaryExpression ::
+this
+Identifier
+Literal
+ArrayLiteral
+ObjectLiteral
+( Expression )
+ArrayLiteral ::
+[ Elision ]
+[ ]
+[ ElementList ]
+[ ElementList , ]
+ElementList ::
+AssignmentExpression
+Elision AssignmentExpression
+ElementList , Elision AssignmentExpression
+ElementList , AssignmentExpression
+Elision ::
+, 
+Elision ,
+ObjectLiteral ::
+{ }
+{ PropertyNameAndValueList }
+PropertyNameAndValueList ::
+PropertyName : AssignmentExpression
+PropertyNameAndValueList , PropertyName : AssignmentExpression
+PropertyName ::
+Identifier
+StringLiteral
+NumericLiteral
+MemberExpression ::
+PrimaryExpression 
+FunctionExpression 
+MemberExpression [ Expression ] 
+MemberExpression . Identifier 
+new MemberExpression Arguments
+NewExpression ::
+MemberExpression 
+new NewExpression
+CallExpression ::
+MemberExpression Arguments 
+CallExpression Arguments 
+CallExpression [ Expression ] 
+CallExpression . Identifier
+Arguments ::
+( ) 
+( ArgumentList )
+ArgumentList ::
+AssignmentExpression 
+ArgumentList , AssignmentExpression
+LeftHandSideExpression ::
+NewExpression 
+CallExpression
+PostfixExpression ::
+LeftHandSideExpression 
+LeftHandSideExpression [$NoLineTerminator] ++ 
+LeftHandSideExpression [$NoLineTerminator] --
+UnaryExpression ::
+PostfixExpression 
+delete UnaryExpression 
+void UnaryExpression 
+typeof UnaryExpression 
+++ UnaryExpression 
+-- UnaryExpression 
++ UnaryExpression 
+- UnaryExpression 
+~ UnaryExpression 
+! UnaryExpression
+MultiplicativeExpression ::
+UnaryExpression 
+MultiplicativeExpression * UnaryExpression 
+MultiplicativeExpression / UnaryExpression 
+MultiplicativeExpression % UnaryExpression
+AdditiveExpression ::
+MultiplicativeExpression 
+AdditiveExpression + MultiplicativeExpression 
+AdditiveExpression - MultiplicativeExpression
+ShiftExpression ::
+AdditiveExpression 
+ShiftExpression << AdditiveExpression 
+ShiftExpression >> AdditiveExpression 
+ShiftExpression >>> AdditiveExpression
+RelationalExpression ::
+ShiftExpression 
+RelationalExpression < ShiftExpression 
+RelationalExpression > ShiftExpression 
+RelationalExpression <= ShiftExpression 
+RelationalExpression >= ShiftExpression 
+RelationalExpression instanceof ShiftExpression 
+RelationalExpression in ShiftExpression
+RelationalExpressionNoIn ::
+ShiftExpression 
+RelationalExpressionNoIn < ShiftExpression 
+RelationalExpressionNoIn > ShiftExpression 
+RelationalExpressionNoIn <= ShiftExpression 
+RelationalExpressionNoIn >= ShiftExpression 
+RelationalExpressionNoIn instanceof ShiftExpression
+EqualityExpression ::
+RelationalExpression 
+EqualityExpression == RelationalExpression 
+EqualityExpression != RelationalExpression 
+EqualityExpression === RelationalExpression 
+EqualityExpression !== RelationalExpression
+EqualityExpressionNoIn ::
+RelationalExpressionNoIn 
+EqualityExpressionNoIn == RelationalExpressionNoIn 
+EqualityExpressionNoIn != RelationalExpressionNoIn 
+EqualityExpressionNoIn === RelationalExpressionNoIn 
+EqualityExpressionNoIn !== RelationalExpressionNoIn
+BitwiseANDExpression ::
+EqualityExpression 
+BitwiseANDExpression & EqualityExpression
+BitwiseANDExpressionNoIn ::
+EqualityExpressionNoIn 
+BitwiseANDExpressionNoIn & EqualityExpressionNoIn
+BitwiseXORExpression ::
+BitwiseANDExpression 
+BitwiseXORExpression ^ BitwiseANDExpression
+BitwiseXORExpressionNoIn ::
+BitwiseANDExpressionNoIn 
+BitwiseXORExpressionNoIn ^ BitwiseANDExpressionNoIn
+BitwiseORExpression ::
+BitwiseXORExpression 
+BitwiseORExpression | BitwiseXORExpression
+BitwiseORExpressionNoIn ::
+BitwiseXORExpressionNoIn 
+BitwiseORExpressionNoIn | BitwiseXORExpressionNoIn
+LogicalANDExpression ::
+BitwiseORExpression 
+LogicalANDExpression && BitwiseORExpression
+LogicalANDExpressionNoIn ::
+BitwiseORExpressionNoIn 
+LogicalANDExpressionNoIn && BitwiseORExpressionNoIn
+LogicalORExpression ::
+LogicalANDExpression 
+LogicalORExpression || LogicalANDExpression
+LogicalORExpressionNoIn ::
+LogicalANDExpressionNoIn 
+LogicalORExpressionNoIn || LogicalANDExpressionNoIn
+ConditionalExpression ::
+LogicalORExpression 
+ConditionalExpression ? AssignmentExpression : AssignmentExpression
+ConditionalExpressionNoIn ::
+LogicalORExpressionNoIn 
+ConditionalExpressionNoIn ? AssignmentExpressionNoIn : AssignmentExpressionNoIn
+AssignmentExpression ::
+ConditionalExpression 
+LeftHandSideExpression AssignmentOperator AssignmentExpression
+AssignmentExpressionNoIn ::
+ConditionalExpressionNoIn 
+LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn
+AssignmentOperator :
+=
+*=
+/=
+%=
++=
+-=
+<<=
+>>=
+>>>=
+&=
+^=
+|=
+Expression ::
+AssignmentExpression 
+Expression , AssignmentExpression
+ExpressionNoIn ::
+AssignmentExpressionNoIn 
+ExpressionNoIn , AssignmentExpressionNoIn
+Statement ::
+Block
+VariableStatement
+EmptyStatement
+ExpressionStatement
+IfStatement
+IterationStatement
+ContinueStatement
+BreakStatement
+ReturnStatement
+WithStatement
+LabelledStatement
+SwitchStatement
+ThrowStatement
+TryStatement
+Block ::
+{ StatementList }
+{ }
+StatementList ::
+Statement
+StatementList Statement
+VariableStatement ::
+var VariableDeclarationList ;
+VariableDeclarationList ::
+VariableDeclaration
+VariableDeclarationList , VariableDeclaration
+VariableDeclarationListNoIn ::
+VariableDeclarationNoIn
+VariableDeclarationListNoIn , VariableDeclarationNoIn
+VariableDeclaration ::
+Identifier Initialiser
+Identifier
+VariableDeclarationNoIn ::
+Identifier InitialiserNoIn
+Identifier
+Initialiser ::
+= AssignmentExpression
+InitialiserNoIn ::
+= AssignmentExpressionNoIn
+EmptyStatement ::
+;
+ExpressionStatement ::
+[$LookAheadNo({,function)] Expression ;
+IfStatement ::
+if ( Expression ) Statement else Statement
+if ( Expression ) Statement
+IterationStatement ::
+do Statement while ( Expression );
+while ( Expression ) Statement
+for ( ExpressionNoIn; Expression ; Expression ) Statement
+for ( ExpressionNoIn; Expression ; ) Statement
+for ( ExpressionNoIn; ; Expression) Statement
+for ( ExpressionNoIn; ; ) Statement
+for ( ; Expression ; Expression) Statement
+for ( ; Expression ; ) Statement
+for ( ; ; Expression) Statement
+for ( ; ; ) Statement
+for ( var VariableDeclarationListNoIn; Expression ; Expression ) Statement
+for ( var VariableDeclarationListNoIn; Expression ; ) Statement
+for ( var VariableDeclarationListNoIn; ; Expression ) Statement
+for ( var VariableDeclarationListNoIn; ; ) Statement
+for ( LeftHandSideExpression in Expression ) Statement
+for ( var VariableDeclarationNoIn in Expression ) Statement
+ContinueStatement ::
+continue [$NoLineTerminator] Identifier ;
+continue ;
+BreakStatement ::
+break [$NoLineTerminator] Identifier ;
+break ;
+ReturnStatement ::
+return [$NoLineTerminator] Expression ;
+return ;
+WithStatement ::
+with ( Expression ) Statement
+SwitchStatement ::
+switch ( Expression ) CaseBlock
+CaseBlock ::
+{ }
+{ CaseClauses }
+{ CaseClauses DefaultClause CaseClauses }
+{ CaseClauses DefaultClause }
+{ DefaultClause }
+{ DefaultClause CaseClauses }
+CaseClauses ::
+CaseClause
+CaseClauses CaseClause
+CaseClause ::
+case Expression : StatementList
+case Expression :
+DefaultClause ::
+default : StatementList
+default :
+LabelledStatement ::
+Identifier : Statement
+ThrowStatement ::
+throw [$NoLineTerminator] Expression ;
+TryStatement ::
+try Block Catch
+try Block Finally
+try Block Catch Finally
+Catch ::
+catch (Identifier ) Block
+Finally ::
+finally Block
+FunctionDeclaration ::
+function Identifier ( FormalParameterList ) { FunctionBody }
+function Identifier ( ) { FunctionBody }
+FunctionExpression ::
+function Identifier ( FormalParameterList ) { FunctionBody }
+function ( FormalParameterList ) { FunctionBody }
+function Identifier ( ) { FunctionBody }
+function ( ) { FunctionBody }
+FormalParameterList ::
+Identifier
+FormalParameterList , Identifier
+FunctionBody ::
+SourceElements
+Program ::
+SourceElements
+SourceElements ::
+SourceElement
+SourceElements SourceElement
+SourceElement ::
+FunctionDeclaration
+Statement
+</textarea>
+<textarea style="display:none;">
+</textarea>
+
+</div>
+<pre id="output"  style="font-size:16px;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;border:solid 1px green;display:block;width:100%;height:300px;"></pre>
+
+
+<script id="code">
+var linePattern = /[^\n\r]+[\n\r]*/g;
+var source = document.getElementById("source").value;
+var line;
+var index = {}
+var prefix = {}
+var rules = {}
+
+//parse the grammar description
+
+var target;
+while( line = linePattern.exec(source))
+{
+    line = line.toString().replace(/\s*[\r\n]/g,"");
+
+    var elements = line.toString().split(" ").reverse();
+    if(elements[0] == "::") 
+    {
+        document.write(elements+"<br/>");
+        target=elements[1];   
+        rules[target] = [];
+        continue;
+    }
+    
+    var specialFlag = null;
+    var rule = [];
+    elements.reverse();
+    var l = 0;
+    for(var k = 0;k<elements.length;k++)
+    {
+        if( elements[k].match(/^\[([^\]]+)\]$/) )
+        {
+            specialFlag = RegExp.$1;
+            continue;
+        }
+        
+        if(specialFlag)
+        {
+            var ele = new String(elements[k]);
+            ele.$flag = specialFlag;
+            rule.push(ele);
+            specialFlag = null;                    
+        }
+        else
+        {
+            rule.push(elements[k]);
+        }
+    }    
+    rules[target].push(rule);
+/*
+    var current = index;
+    for(var i = 0;i<elements.length;i++)
+    {
+        if(!current[elements[i]]) {
+            current[elements[i]] = {};
+        }
+        if(i < elements.length-1)
+        {
+            if(!prefix[elements[i]]) prefix[elements[i]] = {};
+            prefix[elements[i]][elements[i+1]] = "";            
+        }
+        current = current[elements[i]];
+    }
+    current.result = target;
+*/
+}
+
+
+//create closure
+
+var index = {
+};
+var cache ={
+}
+
+var depth = 0;
+function closure(root,p) {
+    depth ++ ;
+
+    var queue = []
+    for(var x in root[p])
+        if( x != "$" && x != "$flag" && x != "$reduce"  )
+            queue.push(x);
+    if(!queue.length) return;
+    try {
+        var key  = JSON.stringify(root[p]) ;
+    }
+    catch(e)
+    {
+        debugger;
+    }
+
+    if(!cache[key])
+    {
+        cache[key] = root[p];
+    }
+    else
+    {
+        root[p] = cache[key];
+        return;
+    }
+        
+    var index = root[p];
+    if(!index) debugger;
+
+    while(queue.length)
+    {
+        var current = queue.shift();
+        if(!rules[current]) continue;
+        
+        
+
+        outer:for(var j = 0; j < rules[current].length; j++)
+        {
+            if(current.$flag && current.$flag.match(/\$LookAheadNo\(([\s\S]+)\)/) )
+            {
+                //debugger;
+                var lookaheadno = RegExp.$1.split(",");
+                for(var n = 0; n< lookaheadno.length; n++)
+                {
+                    if(lookaheadno[n] == rule[0])
+                    {
+                        //debugger;
+                        continue outer;
+                    }
+                }
+            }
+            
+            var rule = rules[current][j];
+            var currentIndex = index;
+            
+            var firstEle;          
+
+            if(!index[rule[0]]) {
+                var str = new String(rule[0]);
+                if(current.$flag)
+                {
+                    str.$flag = current.$flag;
+                }
+                queue.push(str);
+//                if(current.$flag)
+//                {
+//                    var str = new String(rule[0]);
+//                    str.$flag = current.$flag;
+//                    queue.push(str);
+//                }
+//                else
+                  queue.push(new String(rule[0]));
+                  //if(current.$flag)
+                  //    queue[queue.length-1].$flag =  current.$flag;
+                    
+            }
+
+            for(var k = 0;k<rule.length;k++)
+            {
+                if(!currentIndex[rule[k]]) {
+                    currentIndex[rule[k]] = {};                   
+                }
+                currentIndex = currentIndex[rule[k]];
+                if( current.$flag && k==0 )
+                {
+                    currentIndex.$flag = current.$flag;
+                }
+                if( rule[k].$flag) 
+                {
+                    currentIndex.$flag = rule[k].$flag;
+                }
+            }
+
+            currentIndex["$"] = current;
+            currentIndex["$reduce"] = rule.length;
+    /*
+                for(var k = 0; k <1 rule.length; k ++) 
+                {
+                    queue.push(rule.slice(0,k+1))
+                }
+    */
+        } 
+
+
+        //console.log(queue.join("\n"));
+        //debugger;
+    }
+
+    for(var prop in index)
+    {
+        if( prop == "$" || prop == "$flag" ||  prop == "$reduce" || prop.match(/^\[[^\]]+\]$/) ) continue;
+        closure(index,prop)  
+    }
+    depth -- ;
+}
+var firstCall = 1;
+var allIndex = {"Program":{"$":"$"}}
+closure(window,"allIndex");
+
+
+
+function Overload(func,by,when)
+{
+    if(when instanceof Function)
+    {
+        return function()
+        {
+            if(when.apply(this,arguments))return by.apply(this,arguments);
+            else return func.apply(this,arguments);
+        }
+    }
+    else if(when instanceof Array)
+    {
+        return function()
+        {
+            if(arguments.length!=when.length)func.apply(this,arguments)
+            for(var i=0;i<when.length;i++)
+            {
+                if((typeof when[i]=="string"||when[i] instanceof String)&&((typeof arguments[i])!=when[i]))break;
+                if((when[i] instanceof Function)&&!(arguments[i] instanceof when[i]))break;
+            }
+            if(i==when.length)return by.apply(this,arguments);
+            else return func.apply(this,arguments);
+        }
+    }
+}
+
+function ForEach(arr,func)
+{
+    var r=new Array();
+    for(var i=0;i<arr.length;i++)
+    {
+        r[i]=func(arr[i],i);
+    }
+    return r;
+}
+
+function ForIn(obj,func)
+{
+
+    var r=new Array();
+    var i=0;
+    for(var p in obj)
+    {
+        r[i++]=func(obj[p],p);
+    }
+    return r;
+}
+
+var i = 0;
+var objs = [];
+function ToJSON(obj)
+{
+    for(var j =0 ; j < i; j++)
+        if(objs[j] == obj) return "function(){ return objs["+j+"]; }"
+    objs[i++] = obj;
+    return  "objs["+(i-1)+"]={"+ForIn(obj,function(e,p){return ToJSON(p)+":"+ToJSON(e)}).join(",")+"}";
+}
+ToJSON=Overload(
+    ToJSON,
+    function(str){
+        return "\""+new String(str).replace(/(["\\])/g,"\\$1").replace(/\n/g,"\\n")+"\"";
+    },
+    function(){
+        return typeof arguments[0]=="string"||arguments[0] instanceof String;
+    }
+)
+ToJSON=Overload(
+    ToJSON,
+    function(v){
+        return new String(v);
+    },
+    function(){
+        return arguments[0]===null||typeof arguments[0]=="undefined"||typeof arguments[0]=="number"||typeof arguments[0]=="boolean"||arguments[0] instanceof Number||arguments[0] instanceof Boolean;
+    }
+)
+
+ToJSON=Overload(
+    ToJSON,
+    function(arr){
+        return "["+ForEach(arr,function(e){return ToJSON(e)}).join(",")+"]";
+    },
+    function(){
+        return arguments[0] instanceof Array;
+    }
+)
+
+var a = {};
+var b = {};
+a.b = b;
+b.a = a;
+
+
+document.body.innerText = (ToJSON(allIndex));
+
+
+
+var grammarStack = [];
+
+
+</script>
