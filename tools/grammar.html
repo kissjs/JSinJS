@@ -480,6 +480,10 @@ function closure(root,p) {
                 {
                     str.$flag = current.$flag;
                 }
+                if(index[current].$flag)
+                {
+                    str.$flag = index[current].$flag;
+                }
                 queue.push(str);
 //                if(current.$flag)
 //                {
@@ -493,16 +497,19 @@ function closure(root,p) {
                   //    queue[queue.length-1].$flag =  current.$flag;
                     
             }
-
             for(var k = 0;k<rule.length;k++)
             {
                 if(!currentIndex[rule[k]]) {
                     currentIndex[rule[k]] = {};            
                 }
                 currentIndex = currentIndex[rule[k]];
-                if( current.$flag && k==0 )
+                if( (current.$flag) && k==0 )
                 {
                     currentIndex.$flag = current.$flag;
+                }
+                if( (index[current].$flag ) && k==0 )
+                {
+                    currentIndex.$flag = index[current].$flag;
                 }
                 if( rule[k].$flag) 
                 {
@@ -528,8 +535,8 @@ function closure(root,p) {
                     queue.push(rule.slice(0,k+1))
                 }
     */
-            if(allIndex["function"] && allIndex["function"]["("])
-                debugger;
+//            if(allIndex["function"] && allIndex["function"]["("])
+//                debugger;
         } 
 
 
@@ -540,6 +547,8 @@ function closure(root,p) {
     for(var prop in index)
     {
         if( prop == "$" || prop == "$flag" ||  prop == "$reduce" || prop.match(/^\[[^\]]+\]$/) ) continue;
+//        if( prop == "return")
+//            debugger;
         closure(index,prop)  
     }
     depth -- ;
