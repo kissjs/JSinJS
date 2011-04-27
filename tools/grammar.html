@@ -90,10 +90,10 @@ typeof UnaryExpression
 ~ UnaryExpression 
 ! UnaryExpression
 MultiplicativeExpression ::
-UnaryExpression 
+[$div] MultiplicativeExpression / UnaryExpression 
 MultiplicativeExpression * UnaryExpression 
-MultiplicativeExpression / UnaryExpression 
 MultiplicativeExpression % UnaryExpression
+UnaryExpression 
 AdditiveExpression ::
 MultiplicativeExpression 
 AdditiveExpression + MultiplicativeExpression 
@@ -168,10 +168,10 @@ LogicalORExpressionNoIn
 ConditionalExpressionNoIn ? AssignmentExpressionNoIn : AssignmentExpressionNoIn
 AssignmentExpression ::
 ConditionalExpression 
-LeftHandSideExpression AssignmentOperator AssignmentExpression
+[$div] LeftHandSideExpression AssignmentOperator AssignmentExpression
 AssignmentExpressionNoIn ::
 ConditionalExpressionNoIn 
-LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn
+[$div] LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn
 AssignmentOperator :
 =
 *=
@@ -240,13 +240,13 @@ if ( Expression ) Statement
 IterationStatement ::
 do Statement while ( Expression );
 while ( Expression ) Statement
-for ( ExpressionNoIn; Expression ; Expression ) Statement
-for ( ExpressionNoIn; Expression ; ) Statement
-for ( ExpressionNoIn; ; Expression) Statement
-for ( ExpressionNoIn; ; ) Statement
-for ( ; Expression ; Expression) Statement
+for ( ExpressionNoIn ; Expression ; Expression ) Statement
+for ( ExpressionNoIn ; Expression ; ) Statement
+for ( ExpressionNoIn ; ; Expression ) Statement
+for ( ExpressionNoIn ; ; ) Statement
+for ( ; Expression ; Expression ) Statement
 for ( ; Expression ; ) Statement
-for ( ; ; Expression) Statement
+for ( ; ; Expression ) Statement
 for ( ; ; ) Statement
 for ( var VariableDeclarationListNoIn; Expression ; Expression ) Statement
 for ( var VariableDeclarationListNoIn; Expression ; ) Statement
@@ -349,6 +349,7 @@ while( line = linePattern.exec(source))
     }
     
     var specialFlag = null;
+    var divFlag = null
     var rule = [];
     elements.reverse();
     var l = 0;
@@ -360,7 +361,14 @@ while( line = linePattern.exec(source))
             continue;
         }
         
-        if(specialFlag)
+        if(specialFlag == "$div")
+        {
+            var ele = new String(elements[k]);
+            ele.$div = true;
+            rule.push(ele);
+            specialFlag = null;
+        }
+        else if(specialFlag)
         {
             var ele = new String(elements[k]);
             ele.$flag = specialFlag;
@@ -434,10 +442,14 @@ function closure(root,p) {
         var current = queue.shift();
         if(!rules[current]) continue;
         
+
+        if("LeftHandSideExpression"==current && arguments.callee.caller==null)debugger;
+        if("MultiplicativeExpression"==current && arguments.callee.caller==null)debugger;
         
 
         outer:for(var j = 0; j < rules[current].length; j++)
         {
+            var rule = rules[current][j];
             if(current.$flag && current.$flag.match(/\$LookAheadNo\(([\s\S]+)\)/) )
             {
                 //debugger;
@@ -452,13 +464,18 @@ function closure(root,p) {
                 }
             }
             
-            var rule = rules[current][j];
+            
             var currentIndex = index;
             
             var firstEle;          
 
             if(!index[rule[0]]) {
                 var str = new String(rule[0]);
+                //debugger;
+                if(rule[0].$flag)
+                {
+                    str.$flag = rule[0].$flag;
+                }
                 if(current.$flag)
                 {
                     str.$flag = current.$flag;
@@ -471,7 +488,7 @@ function closure(root,p) {
 //                    queue.push(str);
 //                }
 //                else
-                  queue.push(new String(rule[0]));
+                  //queue.push(new String(rule[0]));
                   //if(current.$flag)
                   //    queue[queue.length-1].$flag =  current.$flag;
                     
@@ -480,7 +497,7 @@ function closure(root,p) {
             for(var k = 0;k<rule.length;k++)
             {
                 if(!currentIndex[rule[k]]) {
-                    currentIndex[rule[k]] = {};                   
+                    currentIndex[rule[k]] = {};            
                 }
                 currentIndex = currentIndex[rule[k]];
                 if( current.$flag && k==0 )
@@ -491,6 +508,16 @@ function closure(root,p) {
                 {
                     currentIndex.$flag = rule[k].$flag;
                 }
+                if( rule[k].$div)
+                {
+                    currentIndex.$div = true;
+                }
+            }
+            
+            if(index[current].$div)
+            {
+                //debugger;
+                currentIndex.$div = true;
             }
 
             currentIndex["$"] = current;
@@ -501,6 +528,8 @@ function closure(root,p) {
                     queue.push(rule.slice(0,k+1))
                 }
     */
+            if(allIndex["function"] && allIndex["function"]["("])
+                debugger;
         } 
 
 
