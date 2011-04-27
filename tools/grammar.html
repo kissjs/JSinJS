@@ -172,7 +172,7 @@ ConditionalExpression
 AssignmentExpressionNoIn ::
 ConditionalExpressionNoIn 
 [$div] LeftHandSideExpression AssignmentOperator AssignmentExpressionNoIn
-AssignmentOperator :
+AssignmentOperator ::
 =
 *=
 /=
@@ -248,10 +248,10 @@ for ( ; Expression ; Expression ) Statement
 for ( ; Expression ; ) Statement
 for ( ; ; Expression ) Statement
 for ( ; ; ) Statement
-for ( var VariableDeclarationListNoIn; Expression ; Expression ) Statement
-for ( var VariableDeclarationListNoIn; Expression ; ) Statement
-for ( var VariableDeclarationListNoIn; ; Expression ) Statement
-for ( var VariableDeclarationListNoIn; ; ) Statement
+for ( var VariableDeclarationListNoIn ; Expression ; Expression ) Statement
+for ( var VariableDeclarationListNoIn ; Expression ; ) Statement
+for ( var VariableDeclarationListNoIn ; ; Expression ) Statement
+for ( var VariableDeclarationListNoIn ; ; ) Statement
 for ( LeftHandSideExpression in Expression ) Statement
 for ( var VariableDeclarationNoIn in Expression ) Statement
 ContinueStatement ::
@@ -443,8 +443,8 @@ function closure(root,p) {
         if(!rules[current]) continue;
         
 
-        if("LeftHandSideExpression"==current && arguments.callee.caller==null)debugger;
-        if("MultiplicativeExpression"==current && arguments.callee.caller==null)debugger;
+        //if("LeftHandSideExpression"==current && arguments.callee.caller==null)debugger;
+        //if("MultiplicativeExpression"==current && arguments.callee.caller==null)debugger;
         
 
         outer:for(var j = 0; j < rules[current].length; j++)
