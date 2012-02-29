@@ -1,358 +1,296 @@
-﻿<textarea id="ruletextcontainer">
-PrimaryExpression :
-this 
-Identifier
-Literal
-ArrayLiteral
-ObjectLiteral
-( Expression )
-ArrayLiteral :
-[ Elision [opt] ]
-[ ElementList ]
-[ ElementList , Elision [opt] ]
-ElementList :
-Elision [opt] AssignmentExpression
-ElementList , Elision [opt] AssignmentExpression
-Elision :
-,
-Elision ,
-ObjectLiteral :
-{ }
-{ PropertyNameAndValueList }
-{ PropertyNameAndValueList , }
-PropertyNameAndValueList :
-PropertyAssignment
-PropertyNameAndValueList , PropertyAssignment
-PropertyAssignment :
-PropertyName : AssignmentExpression
-get PropertyName ( ) { FunctionBody }
-set PropertyName ( PropertySetParameterList ) { FunctionBody }
-PropertyName :
-IdentifierName
-StringLiteral
-NumericLiteral
-PropertySetParameterList :
-Identifier
-MemberExpression :
-PrimaryExpression
-FunctionExpression
-MemberExpression [ Expression ]
-MemberExpression . IdentifierName
-new MemberExpression Arguments
-NewExpression :
-MemberExpression
-new NewExpression
-CallExpression :
-MemberExpression Arguments
-CallExpression Arguments
-CallExpression [ Expression ]
-CallExpression . IdentifierName
-Arguments :
-( )
-( ArgumentList )
-ArgumentList :
-AssignmentExpression
-ArgumentList , AssignmentExpression
-LeftHandSideExpression :
-NewExpression
-CallExpression
-PostfixExpression :
-LeftHandSideExpression
-LeftHandSideExpression [noLineTerminator] ++ 
-LeftHandSideExpression [noLineTerminator] --
-UnaryExpression :
-PostfixExpression
-delete UnaryExpression
-void UnaryExpression
-typeof UnaryExpression
-++ UnaryExpression
--- UnaryExpression
-+ UnaryExpression
-- UnaryExpression
-~ UnaryExpression
-! UnaryExpression
-MultiplicativeExpression :
-UnaryExpression
-MultiplicativeExpression * UnaryExpression
-MultiplicativeExpression [div] / UnaryExpression
-MultiplicativeExpression % UnaryExpression
-AdditiveExpression :
-MultiplicativeExpression
-AdditiveExpression + MultiplicativeExpression
-AdditiveExpression - MultiplicativeExpression
-ShiftExpression :
-AdditiveExpression
-ShiftExpression << AdditiveExpression
-ShiftExpression >> AdditiveExpression
-ShiftExpression >>> AdditiveExpression
-RelationalExpression :
-ShiftExpression
-RelationalExpression < ShiftExpression
-RelationalExpression > ShiftExpression
-RelationalExpression <= ShiftExpression
-RelationalExpression >= ShiftExpression
-RelationalExpression instanceof ShiftExpression
-RelationalExpression in ShiftExpression
-RelationalExpressionNoIn :
-ShiftExpression
-RelationalExpressionNoIn < ShiftExpression
-RelationalExpressionNoIn > ShiftExpression
-RelationalExpressionNoIn <= ShiftExpression
-RelationalExpressionNoIn >= ShiftExpression
-RelationalExpressionNoIn instanceof ShiftExpression
-EqualityExpression :
-RelationalExpression
-EqualityExpression == RelationalExpression
-EqualityExpression != RelationalExpression
-EqualityExpression === RelationalExpression
-EqualityExpression !== RelationalExpression
-EqualityExpressionNoIn :
-RelationalExpressionNoIn
-EqualityExpressionNoIn == RelationalExpressionNoIn
-EqualityExpressionNoIn != RelationalExpressionNoIn
-EqualityExpressionNoIn === RelationalExpressionNoIn
-EqualityExpressionNoIn !== RelationalExpressionNoIn
-BitwiseANDExpression :
-EqualityExpression
-BitwiseANDExpression & EqualityExpression
-BitwiseANDExpressionNoIn :
-EqualityExpressionNoIn
-BitwiseANDExpressionNoIn & EqualityExpressionNoIn
-BitwiseXORExpression :
-BitwiseANDExpression
-BitwiseXORExpression ^ BitwiseANDExpression
-BitwiseXORExpressionNoIn :
-BitwiseANDExpressionNoIn
-BitwiseXORExpressionNoIn ^ BitwiseANDExpressionNoIn
-BitwiseORExpression :
-BitwiseXORExpression
-BitwiseORExpression | BitwiseXORExpression
-BitwiseORExpressionNoIn :
-BitwiseXORExpressionNoIn
-BitwiseORExpressionNoIn | BitwiseXORExpressionNoIn
-LogicalANDExpression :
-BitwiseORExpression
-LogicalANDExpression && BitwiseORExpression
-LogicalANDExpressionNoIn :
-BitwiseORExpressionNoIn
-LogicalANDExpressionNoIn && BitwiseORExpressionNoIn
-LogicalORExpression :
-LogicalANDExpression
-LogicalORExpression || LogicalANDExpression
-LogicalORExpressionNoIn :
-LogicalANDExpressionNoIn
-LogicalORExpressionNoIn || LogicalANDExpressionNoIn
-ConditionalExpression :
-LogicalORExpression
-LogicalORExpression ? AssignmentExpression : AssignmentExpression
-ConditionalExpressionNoIn :
-LogicalORExpressionNoIn
-LogicalORExpressionNoIn ? AssignmentExpressionNoIn : AssignmentExpressionNoIn
-AssignmentExpression :
-ConditionalExpression
-LeftHandSideExpression [div] AssignmentOperator AssignmentExpression
-AssignmentExpressionNoIn :
-ConditionalExpressionNoIn
-LeftHandSideExpression [div] AssignmentOperator AssignmentExpressionNoIn
-AssignmentOperator :
-= 
-*= 
-/=
-%=
-+=
--=
-<<=
->>=
->>>=
-&=
-^=
-|=        
-Expression :
-AssignmentExpression
-Expression , AssignmentExpression
-ExpressionNoIn :
-AssignmentExpressionNoIn
-ExpressionNoIn , AssignmentExpressionNoIn
-Statement :
-Block
-VariableStatement
-EmptyStatement
-ExpressionStatement
-IfStatement
-IterationStatement
-ContinueStatement
-BreakStatement
-ReturnStatement
-WithStatement
-LabelledStatement
-SwitchStatement
-ThrowStatement
-TryStatement
-DebuggerStatement
-Block :
-{ StatementList [opt] }
-StatementList :
-Statement
-StatementList Statement
-VariableStatement :
-var VariableDeclarationList ;
-VariableDeclarationList :
-VariableDeclaration
-VariableDeclarationList , VariableDeclaration
-VariableDeclarationListNoIn :
-VariableDeclarationNoIn
-VariableDeclarationListNoIn , VariableDeclarationNoIn
-VariableDeclaration :
-Identifier Initialiser [opt]
-VariableDeclarationNoIn :
-Identifier InitialiserNoIn [opt]
-Initialiser :
-= AssignmentExpression
-InitialiserNoIn :
-= AssignmentExpressionNoIn
-EmptyStatement :
-;
-ExpressionStatement :
-Expression [lookahead∉{{,function}] ;
-IfStatement :
-if ( Expression ) Statement else Statement
-if ( Expression ) Statement
-IterationStatement :
-do Statement while ( Expression ); 
-while ( Expression ) Statement
-for ( ExpressionNoIn [opt] ; Expression [opt] ; Expression [opt] ) Statement
-for ( var VariableDeclarationListNoIn; Expression[opt] ; Expression[opt] ) Statement
-for ( LeftHandSideExpression in Expression ) Statement
-for ( var VariableDeclarationNoIn in Expression ) Statement
-ContinueStatement :
-continue [noLineTerminator] Identifier [opt] ;
-BreakStatement :
-break [noLineTerminator] Identifier [opt] ;
-ReturnStatement :
-return [noLineTerminator] Expression [opt] ;
-WithStatement :
-with ( Expression ) Statement
-SwitchStatement :
-switch ( Expression ) CaseBlock
-CaseBlock :
-{ CaseClauses [opt] } 
-{ CaseClauses [opt] DefaultClause CaseClauses [opt] }
-CaseClauses :
-CaseClause
-CaseClauses CaseClause
-CaseClause :
-case Expression : StatementList [opt]
-DefaultClause :
-default : StatementList [opt]
-LabelledStatement :
-Identifier : Statement
-ThrowStatement :
-throw [noLineTerminator] Expression ;
-TryStatement :
-try Block Catch
-try Block Finally
-try Block Catch Finally
-Catch :
-catch ( Identifier ) Block
-Finally :
-finally Block
-DebuggerStatement :
-debugger ;
-FunctionDeclaration :
-function Identifier ( FormalParameterList [opt] ) { FunctionBody }
-FunctionExpression :
-function Identifier [opt] ( FormalParameterList [opt] ) { FunctionBody }
-FormalParameterList :
-Identifier
-FormalParameterList , Identifier
-FunctionBody :
-SourceElements [opt]
-Program :
-SourceElements [opt]
-SourceElements :
-SourceElement
-SourceElements SourceElement
-SourceElement :
-Statement
-FunctionDeclaration</textarea>
-<script>
-var ruletext = ruletextcontainer.value.split("\n");
+﻿<script>
+var begin = Date.now();
 
+function Parser() {
 
-var rules = {};
-var currentRule ;
-
-ruletext.forEach(function(line){
-    if(line.match(/([^ ]+) \:$/)) {        
-        currentRule = rules[RegExp.$1] = [];
-        
-    }
-    else {
-        currentRule.push(line.trim().split(" "));
-    }
-});
-
-
-var root = {Program:"$"};
-
-var hash = {};
-
-function visitNode(node) {
-    hash[JSON.stringify(node)] = node;
-    var queue = Object.getOwnPropertyNames(node);
-    while(queue.length) {
-        var symbolName = queue.shift();
-        if(!rules[symbolName]) // should be a terminal symbol
-            continue;
-        rules[symbolName].forEach(function(rule){
-            if(node[symbolName].$lookahead && node[symbolName].$lookahead.some(function(e){return e==rule[0];}) ) 
-                return;
-        
-            if(!node[rule[0]])
-                queue.push(rule[0]);
-            var rulenode = node;
-            var lastnode = null;
-            rule.forEach(function(symbol){
-                
-                if(symbol.match(/\[([^\]]+)\]/)) {
-                    if(RegExp.$1 == "lookahead∉{{,function}") {
-                        rulenode["$lookahead"] = ["{","function"];
-                    }
-                    else if(RegExp.$1 == "opt" ){
-                        rulenode = lastnode;
-                    }
-                    else
-                        rulenode["$"+RegExp.$1] = true;
-                    return;
+    function LexicalParser() {
+        function XRegExp(xregexps,rootname,flag){
+            var expnames = [rootname];
+            function buildRegExp(source) {
+                var regexp = new RegExp;
+                regexp.compile(source.replace(/<([^>]+)>/g,function(all,expname) {
+                    if(!xregexps[expname])return "";
+                    expnames.push(expname);
+                    if(xregexps[expname] instanceof RegExp) return "(" + xregexps[expname].source +")";
+                    return "(" + buildRegExp(xregexps[expname]).source +")";
+                }),flag)
+                return regexp;
+            }
+            var regexp = buildRegExp(xregexps[rootname]);
+            this.exec = function(string) {
+                var matches = regexp.exec(string);
+                if(matches==null) return null;
+                var result = new String(matches[0]);
+                for(var i = 0; i < expnames.length; i++)
+                    if(matches[i])
+                        result[expnames[i]] = matches[i];
+                return result;
+            }
+            Object.defineProperty(this,"lastIndex",{
+                "get":function(){
+                    return regexp.lastIndex;
+                }, 
+                "set":function(v){
+                    regexp.lastIndex = v;
                 }
-            
-                if(!rulenode[symbol])
-                    rulenode[symbol] = {};  
-                lastnode = rulenode;
-                rulenode = rulenode[symbol];
             });
-            if(node[symbolName].$lookahead)
-                node[rule[0]].$lookahead = node[symbolName].$lookahead;
-            if(node[symbolName].$div)
-                rulenode.$div = true;
-            rulenode.$reduce = symbolName;
+        }
+        var lex = {
+            InputElementDiv:"<WhiteSpace>|<LineTerminator>|<Comment>|<ReservedWord>|<Identifier>|<Punctuator>|<NumericLiteral>|<StringLiteral>|<DivPunctuator>",
+            InputElementRegExp:"<WhiteSpace>|<LineTerminator>|<Comment>|<ReservedWord>|<Identifier>|<Punctuator>|<NumericLiteral>|<RegularExpressionLiteral>|<StringLiteral>",
+            ReservedWord:"<Keyword>|<FutureReservedWord>|<NullLiteral>|<BooleanLiteral>",
+            WhiteSpace:/[\t\v\f\u0020\u00A0\u1680\u180E\u2000-\u200A\u202F\u205f\u3000]/,
+            LineTerminator:/[\n\r\u2028\u2029]/,
+            Comment:"<SingleLineComment>|<MultiLineComment>",
+            SingleLineComment:/\/\/[^\n\r\u2028\u2029]*/,
+            MultiLineComment:/\/\*(?:[^*]|\*[^\/])*\*\//,
+            Keyword:/break(?![_$a-zA-Z0-9])|else(?![_$a-zA-Z0-9])|new(?![_$a-zA-Z0-9])|var(?![_$a-zA-Z0-9])|case(?![_$a-zA-Z0-9])|finally(?![_$a-zA-Z0-9])|return(?![_$a-zA-Z0-9])|void(?![_$a-zA-Z0-9])|catch(?![_$a-zA-Z0-9])|for(?![_$a-zA-Z0-9])|switch(?![_$a-zA-Z0-9])|while(?![_$a-zA-Z0-9])|continue(?![_$a-zA-Z0-9])|function(?![_$a-zA-Z0-9])|this(?![_$a-zA-Z0-9])|with(?![_$a-zA-Z0-9])|default(?![_$a-zA-Z0-9])|if(?![_$a-zA-Z0-9])|throw(?![_$a-zA-Z0-9])|delete(?![_$a-zA-Z0-9])|in(?![_$a-zA-Z0-9])|try(?![_$a-zA-Z0-9])|do(?![_$a-zA-Z0-9])|instanceof(?![_$a-zA-Z0-9])|typeof(?![_$a-zA-Z0-9])/,
+            FutureReservedWord:/abstract(?![_$a-zA-Z0-9])|enum(?![_$a-zA-Z0-9])|int(?![_$a-zA-Z0-9])|short(?![_$a-zA-Z0-9])|boolean(?![_$a-zA-Z0-9])|export(?![_$a-zA-Z0-9])|interface(?![_$a-zA-Z0-9])|static(?![_$a-zA-Z0-9])|byte(?![_$a-zA-Z0-9])|extends(?![_$a-zA-Z0-9])|long(?![_$a-zA-Z0-9])|super(?![_$a-zA-Z0-9])|char(?![_$a-zA-Z0-9])|final(?![_$a-zA-Z0-9])|native(?![_$a-zA-Z0-9])|synchronized(?![_$a-zA-Z0-9])|class(?![_$a-zA-Z0-9])|float(?![_$a-zA-Z0-9])|package(?![_$a-zA-Z0-9])|throws(?![_$a-zA-Z0-9])|const(?![_$a-zA-Z0-9])|goto|(?![_$a-zA-Z0-9])private(?![_$a-zA-Z0-9])|transient(?![_$a-zA-Z0-9])|debugger(?![_$a-zA-Z0-9])|implements(?![_$a-zA-Z0-9])|(?![_$a-zA-Z0-9])protected(?![_$a-zA-Z0-9])|volatile(?![_$a-zA-Z0-9])|double(?![_$a-zA-Z0-9])|import(?![_$a-zA-Z0-9])|public(?![_$a-zA-Z0-9])/,
+            NullLiteral:/null/,
+            BooleanLiteral:/true|false/,
+            Identifier:/[_$a-zA-Z][_$a-zA-Z0-9]*/,
+            Punctuator:/>>>=|>>=|<<=|===|!==|>>>|<<|%=|\*=|-=|\+=|<=|>=|==|!=|^=|\|=|\|\||&&|&=|>>|\+\+|--|\:|}|\*|&|\||\^|!|~|-|\+|\?|%|=|>|<|,|;|\.|\]|\[|\)|\(|{/,
+            DivPunctuator:/\/=|\//,
+            NumericLiteral:/(?:0[xX][0-9a-fA-F]*|0|[1-9]+[0-9]*(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]{0,1}[0-9]+)?/,
+            StringLiteral:/"(?:[^"\n\\\r\u2028\u2029]|\\['"\\bfnrtv\n\r\u2028\u2029]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\[^0-9ux'"\\bfnrtv\n\\\r\u2028\u2029])*"|'(?:[^'\n\\\r\u2028\u2029]|\\['"\\bfnrtv\n\r\u2028\u2029]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\[^0-9ux'"\\bfnrtv\n\\\r\u2028\u2029])*'/,
+            RegularExpressionLiteral:/\/(?:\[(?:\\[\s\S]|[^\]])*\]|[^*\/\\\n\r\u2028\u2029]|\\[^\n\r\u2028\u2029])(?:\[(?:\\[\s\S]|[^\]])*\]|[^\/\\\n\r\u2028\u2029]|\\[^\n\r\u2028\u2029])*\/[0-9a-zA-Z]*/
+        }
+        var inputElementDiv = new XRegExp(lex,"InputElementDiv","g");
+        var inputElementRegExp = new XRegExp(lex,"InputElementRegExp","g");
+        
+        var source;
+        
+        Object.defineProperty(this,"source",{
+            "get":function(){
+                return source;
+            }, 
+            "set":function(v){
+                source = v;
+                inputElementDiv.lastIndex = 0;
+                inputElementRegExp.lastIndex = 0;
+            }
+        });
+        
+        this.getNextToken = function(useDiv){
+            if(useDiv)
+            {
+                inputElementDiv.lastIndex = inputElementRegExp.lastIndex;
+                try {
+                    return inputElementDiv.exec(source);
+                }
+                finally {
+                    inputElementRegExp.lastIndex = inputElementDiv.lastIndex;
+                }
+            }
+            return inputElementRegExp.exec(source);
+        }
+    }
+
+    function SyntacticalParser() {
+
+        var ruletext = "Literal :\nNullLiteral\nBooleanLiteral\nNumericLiteral\nStringLiteral\nRegularExpressionLiteral\nPrimaryExpression :\nthis\nIdentifier\nLiteral\nArrayLiteral\nObjectLiteral\n( Expression )\nArrayLiteral :\n[ Elision [opt] ]\n[ ElementList ]\n[ ElementList , Elision [opt] ]\nElementList :\nElision [opt] AssignmentExpression\nElementList , Elision [opt] AssignmentExpression\nElision :\n,\nElision ,\nObjectLiteral :\n{ }\n{ PropertyNameAndValueList }\n{ PropertyNameAndValueList , }\nPropertyNameAndValueList :\nPropertyAssignment\nPropertyNameAndValueList , PropertyAssignment\nPropertyAssignment :\nPropertyName : AssignmentExpression\nget PropertyName ( ) { FunctionBody }\nset PropertyName ( PropertySetParameterList ) { FunctionBody }\nPropertyName :\nIdentifierName\nStringLiteral\nNumericLiteral\nPropertySetParameterList :\nIdentifier\nMemberExpression :\nPrimaryExpression\nFunctionExpression\nMemberExpression [ Expression ]\nMemberExpression . IdentifierName\nnew MemberExpression Arguments\nNewExpression :\nMemberExpression\nnew NewExpression\nCallExpression :\nMemberExpression Arguments\nCallExpression Arguments\nCallExpression [ Expression ]\nCallExpression . IdentifierName\nArguments :\n( )\n( ArgumentList )\nArgumentList :\nAssignmentExpression\nArgumentList , AssignmentExpression\nLeftHandSideExpression :\nNewExpression\nCallExpression\nPostfixExpression :\nLeftHandSideExpression\nLeftHandSideExpression [noLineTerminator] ++\nLeftHandSideExpression [noLineTerminator] --\nUnaryExpression :\nPostfixExpression\ndelete UnaryExpression\nvoid UnaryExpression\ntypeof UnaryExpression\n++ UnaryExpression\n-- UnaryExpression\n+ UnaryExpression\n- UnaryExpression\n~ UnaryExpression\n! UnaryExpression\nMultiplicativeExpression :\nUnaryExpression\nMultiplicativeExpression * UnaryExpression\nMultiplicativeExpression [div] / UnaryExpression\nMultiplicativeExpression % UnaryExpression\nAdditiveExpression :\nMultiplicativeExpression\nAdditiveExpression + MultiplicativeExpression\nAdditiveExpression - MultiplicativeExpression\nShiftExpression :\nAdditiveExpression\nShiftExpression << AdditiveExpression\nShiftExpression >> AdditiveExpression\nShiftExpression >>> AdditiveExpression\nRelationalExpression :\nShiftExpression\nRelationalExpression < ShiftExpression\nRelationalExpression > ShiftExpression\nRelationalExpression <= ShiftExpression\nRelationalExpression >= ShiftExpression\nRelationalExpression instanceof ShiftExpression\nRelationalExpression in ShiftExpression\nRelationalExpressionNoIn :\nShiftExpression\nRelationalExpressionNoIn < ShiftExpression\nRelationalExpressionNoIn > ShiftExpression\nRelationalExpressionNoIn <= ShiftExpression\nRelationalExpressionNoIn >= ShiftExpression\nRelationalExpressionNoIn instanceof ShiftExpression\nEqualityExpression :\nRelationalExpression\nEqualityExpression == RelationalExpression\nEqualityExpression != RelationalExpression\nEqualityExpression === RelationalExpression\nEqualityExpression !== RelationalExpression\nEqualityExpressionNoIn :\nRelationalExpressionNoIn\nEqualityExpressionNoIn == RelationalExpressionNoIn\nEqualityExpressionNoIn != RelationalExpressionNoIn\nEqualityExpressionNoIn === RelationalExpressionNoIn\nEqualityExpressionNoIn !== RelationalExpressionNoIn\nBitwiseANDExpression :\nEqualityExpression\nBitwiseANDExpression & EqualityExpression\nBitwiseANDExpressionNoIn :\nEqualityExpressionNoIn\nBitwiseANDExpressionNoIn & EqualityExpressionNoIn\nBitwiseXORExpression :\nBitwiseANDExpression\nBitwiseXORExpression ^ BitwiseANDExpression\nBitwiseXORExpressionNoIn :\nBitwiseANDExpressionNoIn\nBitwiseXORExpressionNoIn ^ BitwiseANDExpressionNoIn\nBitwiseORExpression :\nBitwiseXORExpression\nBitwiseORExpression | BitwiseXORExpression\nBitwiseORExpressionNoIn :\nBitwiseXORExpressionNoIn\nBitwiseORExpressionNoIn | BitwiseXORExpressionNoIn\nLogicalANDExpression :\nBitwiseORExpression\nLogicalANDExpression && BitwiseORExpression\nLogicalANDExpressionNoIn :\nBitwiseORExpressionNoIn\nLogicalANDExpressionNoIn && BitwiseORExpressionNoIn\nLogicalORExpression :\nLogicalANDExpression\nLogicalORExpression || LogicalANDExpression\nLogicalORExpressionNoIn :\nLogicalANDExpressionNoIn\nLogicalORExpressionNoIn || LogicalANDExpressionNoIn\nConditionalExpression :\nLogicalORExpression\nLogicalORExpression ? AssignmentExpression : AssignmentExpression\nConditionalExpressionNoIn :\nLogicalORExpressionNoIn\nLogicalORExpressionNoIn ? AssignmentExpressionNoIn : AssignmentExpressionNoIn\nAssignmentExpression :\nConditionalExpression\nLeftHandSideExpression [div] AssignmentOperator AssignmentExpression\nAssignmentExpressionNoIn :\nConditionalExpressionNoIn\nLeftHandSideExpression [div] AssignmentOperator AssignmentExpressionNoIn\nAssignmentOperator :\n=\n*=\n/=\n%=\n+=\n-=\n<<=\n>>=\n>>>=\n&=\n^=\n|=\nExpression :\nAssignmentExpression\nExpression , AssignmentExpression\nExpressionNoIn :\nAssignmentExpressionNoIn\nExpressionNoIn , AssignmentExpressionNoIn\nStatement :\nBlock\nVariableStatement\nEmptyStatement\nExpressionStatement\nIfStatement\nIterationStatement\nContinueStatement\nBreakStatement\nReturnStatement\nWithStatement\nLabelledStatement\nSwitchStatement\nThrowStatement\nTryStatement\nDebuggerStatement\nBlock :\n{ StatementList [opt] }\nStatementList :\nStatement\nStatementList Statement\nVariableStatement :\nvar VariableDeclarationList ;\nVariableDeclarationList :\nVariableDeclaration\nVariableDeclarationList , VariableDeclaration\nVariableDeclarationListNoIn :\nVariableDeclarationNoIn\nVariableDeclarationListNoIn , VariableDeclarationNoIn\nVariableDeclaration :\nIdentifier Initialiser [opt]\nVariableDeclarationNoIn :\nIdentifier InitialiserNoIn [opt]\nInitialiser :\n= AssignmentExpression\nInitialiserNoIn :\n= AssignmentExpressionNoIn\nEmptyStatement :\n;\nExpressionStatement :\nExpression [lookahead∉{{,function}] ;\nIfStatement :\nif ( Expression ) Statement else Statement\nif ( Expression ) Statement\nIterationStatement :\ndo Statement while ( Expression ) ;\nwhile ( Expression ) Statement\nfor ( ExpressionNoIn [opt] ; Expression [opt] ; Expression [opt] ) Statement\nfor ( var VariableDeclarationListNoIn; Expression[opt] ; Expression[opt] ) Statement\nfor ( LeftHandSideExpression in Expression ) Statement\nfor ( var VariableDeclarationNoIn in Expression ) Statement\nContinueStatement :\ncontinue [noLineTerminator] Identifier [opt] ;\nBreakStatement :\nbreak [noLineTerminator] Identifier [opt] ;\nReturnStatement :\nreturn [noLineTerminator] Expression [opt] ;\nWithStatement :\nwith ( Expression ) Statement\nSwitchStatement :\nswitch ( Expression ) CaseBlock\nCaseBlock :\n{ CaseClauses [opt] }\n{ CaseClauses [opt] DefaultClause CaseClauses [opt] }\nCaseClauses :\nCaseClause\nCaseClauses CaseClause\nCaseClause :\ncase Expression : StatementList [opt]\nDefaultClause :\ndefault : StatementList [opt]\nLabelledStatement :\nIdentifier : Statement\nThrowStatement :\nthrow [noLineTerminator] Expression ;\nTryStatement :\ntry Block Catch\ntry Block Finally\ntry Block Catch Finally\nCatch :\ncatch ( Identifier ) Block\nFinally :\nfinally Block\nDebuggerStatement :\ndebugger ;\nFunctionDeclaration :\nfunction Identifier ( FormalParameterList [opt] ) { FunctionBody }\nFunctionExpression :\nfunction Identifier [opt] ( FormalParameterList [opt] ) { FunctionBody }\nFormalParameterList :\nIdentifier\nFormalParameterList , Identifier\nFunctionBody :\nSourceElements [opt]\nProgram :\nSourceElements [opt]\nSourceElements :\nSourceElement\nSourceElements SourceElement\nSourceElement :\nStatement\nFunctionDeclaration";
+
+        ruletext= ruletext.split("\n");
+
+        var rules = {};
+        var currentRule ;
+
+        ruletext.forEach(function(line){
+            if(line.match(/([^ ]+) \:$/)) {        
+                currentRule = rules[RegExp.$1] = [];
+                
+            }
+            else {
+                currentRule.push(line.trim().split(" "));
+            }
+        });
+
+        //build the status machine
+
+        var root = {Program:"$"};
+
+        var hash = {};
+
+        function visitNode(node) {
+            hash[JSON.stringify(node)] = node;
+            
+            node.$closure = true;
+            
+            var queue = Object.getOwnPropertyNames(node);
+            while(queue.length) {
+                var symbolName = queue.shift();
+                if(!rules[symbolName]) // should be a terminal symbol
+                    continue;
+                rules[symbolName].forEach(function(rule){
+                    if(node[symbolName].$lookahead && node[symbolName].$lookahead.some(function(e){return e==rule[0];}) ) 
+                        return;
+                        
+
+                
+                    if(!node[rule[0]])
+                        queue.push(rule[0]);
+                    var rulenode = node;
+                    var lastnode = null;
+                    var opt = false;
+
+                    rule.forEach(function(symbol){
+                        if(symbol.match(/\[([^\]]+)\]/)) {
+                            if(RegExp.$1 == "lookahead∉{{,function}") {
+                                rulenode["$lookahead"] = ["{","function"];
+                            }
+                            else if(RegExp.$1 == "opt" ){
+                                opt = true;                                                                 
+                            }
+                            else
+                                rulenode["$"+RegExp.$1] = true;
+                            return;
+                        }
+
+                        if(!rulenode[symbol])
+                            rulenode[symbol] = {}; 
+                            
+                        if(opt) {
+                            lastnode[symbol] = rulenode[symbol];
+                            opt = false;
+                        }
+                        
+                        lastnode = rulenode;
+                        rulenode = rulenode[symbol];
+                        
+                        
+                        
+
+                    });
+                    if(node[symbolName].$lookahead)
+                        node[rule[0]].$lookahead = node[symbolName].$lookahead;
+                    if(node[symbolName].$div)
+                        rulenode.$div = true;
+                    rulenode.$reduce = symbolName;
+                    rulenode.$count = rule.filter(function(e){ return !e.match(/\[([^\]]+)\]/); }).length;
+                    if(opt) {
+                        lastnode.$reduce = symbolName;
+                        lastnode.$count = rule.length - 1;
+                        opt = false;
+                        
+                    }
+                    
+
+                });
+            }
+            for(var p in node) {
+                
+                if( typeof node[p] != "object" || p.charAt(0) == "$" || node[p].$closure ) 
+                    continue;
+
+                if( hash[JSON.stringify(node[p])])
+                    node[p] = hash[JSON.stringify(node[p])];
+                else
+                    visitNode(node[p]);
+            }
+        }
+
+        visitNode(root);    
+        
+        
+        var symbolStack = [];
+        var statusStack = [root];
+        var current = root;
+        
+        this.insertSymbol = function insertSymbol(symbol,haveLineTerminator) {
+            while(!current[symbol.name] && current["$reduce"])
+            {
+                var count = current["$count"];
+                var newsymbol = new Symbol(current["$reduce"]);
+                while(count--) newsymbol.childNodes.push(symbolStack.pop()),statusStack.pop();
+                current = statusStack[statusStack.length-1];
+                newsymbol.childNodes.reverse();
+                this.insertSymbol(newsymbol);
+            }
+            if( current[symbol.name] && current[symbol.name].$noLineTerminator && haveLineTerminator )
+            {            
+                this.insertSymbol(new Symbol(";"))
+                return this.insertSymbol(symbol);
+            }
+            if( !current[symbol.name] && current[";"] && current[";"]["$reduce"] && (haveLineTerminator || symbol.name == "}"))
+            {
+                this.insertSymbol(new Symbol(";"))
+                return this.insertSymbol(symbol);
+            }      
+            current = current[symbol.name];  
+            symbolStack.push(symbol),statusStack.push(current);
+        };
+        this.reset = function(){
+            current = root;
+            symbolStack = [];
+            statusStack = [root];
+        }
+        Object.defineProperty(this,"grammarTree",{
+            "get":function(){
+                while(current["$reduce"])
+                {
+                    var count = current["$count"];
+                    var newsymbol = new Symbol(current["$reduce"]);
+                    while(count--) newsymbol.childNodes.push(symbolStack.pop()),statusStack.pop();
+                    current = statusStack[statusStack.length-1];
+                    this.insertSymbol(newsymbol);
+                }
+                if(symbolStack.length > 0)
+                    this.insertSymbol(";",";");
+            
+                return symbolStack[0];
+            }, 
 
         });
     }
-
-    for(var p in node) {
-        if( typeof node[p] != "object") 
-            continue;
-        if( hash[JSON.stringify(node[p])] )
-            node[p] = hash[JSON.stringify(node[p])];
-        else
-            visitNode(node[p]);
+    
+    this.lexicalParser = new LexicalParser();   
+    this.syntacticalParser = new SyntacticalParser(this.lexicalParser);
+    
+    var terminalSymbols = ["NullLiteral","BooleanLiteral","NumericLiteral","StringLiteral","RegularExpressionLiteral","RegularExpressionLiteral","Identifier",
+        "{","}","(",")","[","]",".",";",",","<",">","<=",">=","==","!=","===","!==","+","-","*","%","++","--","<<",">>",">>>","&","|","^","!","~","&&","||","?",":","=","+=","-=","*=","%=","<<=",">>=",">>>=","&=","|=","^=",
+        "break","do","instanceof","typeof","case","else","new","var","catch","finally","return","void","continue","for","switch","while","debugger","function","this","with","default","if","throw","delete","in","try"];
+    var terminalSymbolIndex = {};    
+    terminalSymbols.forEach(function(e){
+        Object.defineProperty(terminalSymbolIndex,e,{});
+    });  
+    function Symbol(symbolName,token) 
+    {
+        this.name = symbolName;
+        this.token = token;
+        this.childNodes = [];
     }
+    this.parse = function(source) {
+        var token;
+        var haveLineTerminator = true;
+        
+        this.lexicalParser.source = source;
+        
+        while( token = this.lexicalParser.getNextToken() ) {
+            if( (token.Comment && token.Comment.match(/[\n\r\u2028\u2029]/)) || token.LineTerminator)
+            {
+                haveLineTerminator = true ;
+                continue;
+            }
+            
+            if(terminalSymbolIndex.hasOwnProperty(token.toString())) {
+                this.syntacticalParser.insertSymbol(new Symbol(token.toString(),token));
+            }
+            with(this)
+                Object.getOwnPropertyNames(token).some(function(e){ 
+                    if( terminalSymbolIndex.hasOwnProperty(e) ) {
+                        syntacticalParser.insertSymbol(new Symbol(e,token));
+                        return true;
+                    }
+                    else return false;
+                });
+        }
+        return this.syntacticalParser.grammarTree;
+    }
+
 }
+var parser = new Parser();
+console.log(parser.parse("var a = 1;"));
 
-visitNode(root);
-
-console.log(root);
 
 
 
