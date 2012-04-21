@@ -3,7 +3,6 @@
 <button >parse</button>
 <pre id="output"></pre>
 <script>
-
 document.querySelector("button").onclick = function(){
     var parser = new Parser();
     var tree = parser.parse(document.querySelector("#code").value);
