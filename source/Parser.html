@@ -494,12 +494,12 @@ function Parser() {
             }
             if( current[symbol.name] && current[symbol.name].$noLineTerminator && haveLineTerminator )
             {            
-                this.insertSymbol(new Symbol(";"))
+                this.insertSymbol(new Symbol(";", ";"))
                 return this.insertSymbol(symbol);
             }
             if( !current[symbol.name] && current[";"] && current[";"]["$reduce"] && (haveLineTerminator || symbol.name == "}"))
             {
-                this.insertSymbol(new Symbol(";"))
+                this.insertSymbol(new Symbol(";", ";"))
                 return this.insertSymbol(symbol);
             }      
             current = current[symbol.name];  
@@ -521,10 +521,11 @@ function Parser() {
                     var newsymbol = new Symbol(current["$reduce"]);
                     while(count--) newsymbol.childNodes.push(symbolStack.pop()),statusStack.pop();
                     current = statusStack[statusStack.length-1];
+                    newsymbol.childNodes.reverse();
                     this.insertSymbol(newsymbol);
                 }
                 if(symbolStack.length > 0)
-                    this.insertSymbol(";",";");
+                    this.insertSymbol(new Symbol(";", ";"));
             
                 return symbolStack[0];
             }, 
