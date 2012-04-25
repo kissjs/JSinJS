@@ -173,11 +173,7 @@
         var current = root;
         
         this.insertSymbol = function insertSymbol(symbol,haveLineTerminator) {
-            if( current.$noLineTerminator && haveLineTerminator )
-            {            
-                this.insertSymbol(new Symbol(";", ";"));
-                return this.insertSymbol(symbol);
-            }
+
             while(!current[symbol.name] && current["$reduce"])
             {
                 var count = current["$count"];
@@ -186,6 +182,12 @@
                 current = statusStack[statusStack.length-1];
                 //newsymbol.childNodes.reverse();
                 this.insertSymbol(newsymbol);
+            }
+
+            if( current.$noLineTerminator && haveLineTerminator )
+            {            
+                this.insertSymbol(new Symbol(";", ";"));
+                return this.insertSymbol(symbol);
             }
 
             if( !current[symbol.name] && current[";"] && current[";"]["$reduce"] && (haveLineTerminator || symbol.name == "}"))
