@@ -1,0 +1,38 @@
+﻿<script src="../source/parser.js"></script>
+<textarea id="code" style="width:100%;height:500px;">var bubbleSort = function (array) {
+    for (var x = 0; x < array.length; x++) {
+        for (var y = 0; y < array.length - x; y++) {
+            if (array[y] > array[y + 1]) {
+                swap(array, y, y + 1);
+            }
+        }
+    }
+}</textarea>
+<button >parse</button>
+<pre id="output"></pre>
+<script>
+document.querySelector("button").onclick = function(){
+    var parser = new Parser();
+    var tree = parser.parse(document.querySelector("#code").value);
+
+    var str = "";
+    var output = document.querySelector("#output");
+    var indent = 0;
+    function visit(tree) {
+        if(tree.token) { 
+            var token = document.createElement("span");
+            token.appendChild(document.createTextNode(tree.token + " "));
+            output.appendChild(token);
+        }
+        else {
+            var i = tree.childNodes.length;
+            while(i--) {
+                visit(tree.childNodes[i]);
+            }
+        }
+    }
+    visit(tree);
+    
+}
+
+</script>
