@@ -62,10 +62,14 @@ function visualize(container,node) {
 window.onload = function(){
     
     document.querySelector("button").onclick = function(){
-        var parser = new Parser();
-        visualizer.innerHTML = "";
-        var tree = parser.parse(document.querySelector("#code").value);
-        visualize(document.querySelector("#visualizer"),tree);
+        try {
+            var parser = new Parser();
+            visualizer.innerHTML = "";
+            var tree = parser.parse(document.querySelector("#code").value);
+            visualize(document.querySelector("#visualizer"),tree);
+        } catch(e) {
+            visualizer.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
+        }
     }
 }
 </script>

@@ -47,7 +47,7 @@
             Identifier:/[_$a-zA-Z][_$a-zA-Z0-9]*/,
             Punctuator:/>>>=|>>=|<<=|===|!==|>>>|<<|%=|\*=|-=|\+=|<=|>=|==|!=|\^=|\|=|\|\||&&|&=|>>|\+\+|--|\:|}|\*|&|\||\^|!|~|-|\+|\?|%|=|>|<|,|;|\.(?![0-9])|\]|\[|\)|\(|{/,
             DivPunctuator:/\/=|\//,
-            NumericLiteral:/(?:0[xX][0-9a-fA-F]*|\.[0-9]+|(?:[1-9]+[0-9]*|0)(?:\.[0-9]*|\.)?)(?:[eE][+-]{0,1}[0-9]+)?/,
+            NumericLiteral:/(?:0[xX][0-9a-fA-F]*|\.[0-9]+|(?:[1-9]+[0-9]*|0)(?:\.[0-9]*|\.)?)(?:[eE][+-]{0,1}[0-9]+)?(?![_$a-zA-Z0-9])/,
             StringLiteral:/"(?:[^"\n\\\r\u2028\u2029]|\\['"\\bfnrtv\n\r\u2028\u2029]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\[^0-9ux'"\\bfnrtv\n\\\r\u2028\u2029])*"|'(?:[^'\n\\\r\u2028\u2029]|\\['"\\bfnrtv\n\r\u2028\u2029]|\\x[0-9a-fA-F]{2}|\\u[0-9a-fA-F]{4}|\\[^0-9ux'"\\bfnrtv\n\\\r\u2028\u2029])*'/,
             RegularExpressionLiteral:/\/(?:\[(?:\\[\s\S]|[^\]])*\]|[^*\/\\\n\r\u2028\u2029]|\\[^\n\r\u2028\u2029])(?:\[(?:\\[\s\S]|[^\]])*\]|[^\/\\\n\r\u2028\u2029]|\\[^\n\r\u2028\u2029])*\/[0-9a-zA-Z]*/
         }
@@ -68,17 +68,25 @@
         });
         
         this.getNextToken = function(useDiv){
-            if(useDiv)
+
+            var lastIndex = inputElementDiv.lastIndex;
+            var inputElement;
+
+            if(useDiv) inputElement = inputElementDiv;
+            else inputElement = inputElementRegExp;
+
+                
+            var token = inputElement.exec(source);
+
+            if(token && inputElement.lastIndex-lastIndex > token.length)
             {
-                inputElementDiv.lastIndex = inputElementRegExp.lastIndex;
-                try {
-                    return inputElementDiv.exec(source);
-                }
-                finally {
-                    inputElementRegExp.lastIndex = inputElementDiv.lastIndex;
-                }
+                throw new SyntaxError("Unexpected token ILLEGAL");
             }
-            return inputElementRegExp.exec(source);
+
+            inputElementDiv.lastIndex = inputElement.lastIndex;
+            inputElementRegExp.lastIndex = inputElement.lastIndex;
+
+            return token;
         }
     }
 
@@ -198,7 +206,7 @@
             current = current[symbol.name];  
             symbolStack.push(symbol),statusStack.push(current);
             if(!current)
-                return false;
+                throw new Error();
             return current.$div;
         };
         this.reset = function(){
@@ -208,19 +216,24 @@
         }
         Object.defineProperty(this,"grammarTree",{
             "get":function(){
-                while(current["$reduce"])
-                {
-                    var count = current["$count"];
-                    var newsymbol = new Symbol(current["$reduce"]);
-                    while(count--) newsymbol.childNodes.push(symbolStack.pop()),statusStack.pop();
-                    current = statusStack[statusStack.length-1];
-                    this.insertSymbol(newsymbol);
+                try {
+                    while(current["$reduce"])
+                    {
+                        var count = current["$count"];
+                        var newsymbol = new Symbol(current["$reduce"]);
+                        while(count--) newsymbol.childNodes.push(symbolStack.pop()),statusStack.pop();
+                        current = statusStack[statusStack.length-1];
+                        this.insertSymbol(newsymbol);
+                    }
+                    if(symbolStack.length > 0 && current[";"]) {
+                        this.insertSymbol(new Symbol(";", ";"));
+                        return this.grammarTree;
+                    }
+                    if(symbolStack.length!=1 || symbolStack[0].name!= "Program" )
+                        throw new Error();
+                } catch (e) {
+                    throw new SyntaxError("Unexpected end of input");
                 }
-                if(symbolStack.length > 0 && current[";"]) {
-                    this.insertSymbol(new Symbol(";", ";"));
-                    return this.grammarTree;
-                }
-            
                 return symbolStack[0];
             }, 
 
@@ -260,29 +273,31 @@
         var useDiv = false;
         
         while( token = this.lexicalParser.getNextToken(useDiv) ) {
-            console.log(token.toString());
-            if( (token.Comment && token.Comment.match(/[\n\r\u2028\u2029]/)) || token.LineTerminator)
-            {
-                haveLineTerminator = true ;
-                continue;
-            }
+            try {
+                if( (token.Comment && token.Comment.match(/[\n\r\u2028\u2029]/)) || token.LineTerminator)
+                {
+                    haveLineTerminator = true ;
+                    continue;
+                }
             
 
-            with(this)
-                if(Object.getOwnPropertyNames(token).some(function(e){ 
-                    if( terminalSymbolIndex.hasOwnProperty(e) ) {
-                        useDiv = syntacticalParser.insertSymbol(new Symbol(e,token),haveLineTerminator);
-                        haveLineTerminator = false ;
-                        return true;
-                    }
-                    else return false;
-                }))
+                with(this)
+                    if(Object.getOwnPropertyNames(token).some(function(e){ 
+                        if( terminalSymbolIndex.hasOwnProperty(e) ) {
+                            useDiv = syntacticalParser.insertSymbol(new Symbol(e,token),haveLineTerminator);
+                            haveLineTerminator = false ;
+                            return true;
+                        }
+                        else return false;
+                    }))
                     continue;
-            if( (token["Keyword"]||token["Punctuator"]||token["DivPunctuator"]) && terminalSymbolIndex.hasOwnProperty(token.toString())) {
-                useDiv = this.syntacticalParser.insertSymbol(new Symbol(token.toString(),token),haveLineTerminator);
-                haveLineTerminator = false ;
+                if( (token["Keyword"]||token["Punctuator"]||token["DivPunctuator"]) && terminalSymbolIndex.hasOwnProperty(token.toString())) {
+                    useDiv = this.syntacticalParser.insertSymbol(new Symbol(token.toString(),token),haveLineTerminator);
+                    haveLineTerminator = false ;
+                }
+            } catch(e) {
+                throw new SyntaxError("Unexpected token " + token);
             }
-            
         }
         return this.syntacticalParser.grammarTree;
     }
