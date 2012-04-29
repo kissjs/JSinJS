@@ -80,6 +80,24 @@
     "SourceElements":[["SourceElement"], ["SourceElements", "SourceElement"]], "SourceElement":[["Statement"], ["FunctionDeclaration"]]
     
 };
+function Symbol(symbolName, token)
+{
+    this.name = symbolName;
+    this.token = token;
+    this.childNodes = [];
+    this. toString  = 
+        function(indent)
+        {
+            if(!indent)
+                indent = "";
+            if(this.childNodes.length == 1)
+                return this.childNodes[0]. toString (indent);
+            var str = indent + this.name + (this.token != undefined && this.name != this.token ? ":" + this.token:"") + "\n";
+            for(var i = 0;i < this.childNodes.length;i++)
+                str += this.childNodes[i]. toString (indent + "    ");
+            return str;
+        };
+}
 function SyntacticalParser()
 {
     var currentRule;
