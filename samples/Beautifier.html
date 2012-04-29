@@ -50,7 +50,9 @@ document.querySelector("button").onclick = function(){
     var table = {"|=":true,"^=":true,"&=":true,">>>=":true,">>=":true,"<<=":true,"-=":true,"+=":true,"%=":true,"/=":true,"*=":true,"=":true,"?":true,"||":true,"&&":true,"|":true,"^":true,"&":true,"!==":true,"===":true,"!=":true,"==":true,">=":true,"<=":true,">":true,"<":true,">>>":true,">>":true,"<<":true,"-":true,"+":true,"%":true,"*":true,"/":true}
 
     function visitObj(obj) {
+        indent+=4;
         visit(obj.childNodes[obj.childNodes.length-1]);
+        
         if(obj.childNodes.length>=3)
         {
             var list = obj.childNodes[obj.childNodes.length-2];
@@ -59,17 +61,23 @@ document.querySelector("button").onclick = function(){
                 var indentSpan = document.createElement("span");
                 indentSpan.innerHTML = Array(indent+1).join(" ");
                 output.appendChild(indentSpan);
+                indent+=4;
                 visit(list.childNodes[0]);
                 visit(list.childNodes[1]);
+                indent-=4;
                 list = list.childNodes[list.childNodes.length-1];
             }
+            output.appendChild(document.createElement("br"));
+            var indentSpan = document.createElement("span");
+            indentSpan.innerHTML = Array(indent+1).join(" ");
+            output.appendChild(indentSpan);
+            indent+=4;
             visit(list);
-        }
-        output.appendChild(document.createElement("br"));
-        var indentSpan = document.createElement("span");
-        indentSpan.innerHTML = Array(indent+1).join(" ");
-        output.appendChild(indentSpan);
+            indent-=4;
+        }        
+        
         visit(obj.childNodes[0]);
+        indent-=4;
     }
 
 
