@@ -45,7 +45,7 @@
     "ExpressionNoIn":[["AssignmentExpressionNoIn"], ["ExpressionNoIn", ",", "AssignmentExpressionNoIn"]], 
     "Statement":[["Block"], ["VariableStatement"], ["EmptyStatement"], ["ExpressionStatement"], ["IfStatement"], ["IterationStatement"], ["ContinueStatement"], ["BreakStatement"], ["ReturnStatement"], ["WithStatement"], ["LabelledStatement"], ["SwitchStatement"], ["ThrowStatement"], ["TryStatement"], ["DebuggerStatement"]], 
     "Block":[["{", "}"], ["{", "StatementList", "}"]], 
-    "StatementList":[["Statement"], ["StatementList", "Statement"], ["StatementList", "FunctionDeclaration"]], 
+    "StatementList":[["FunctionDeclaration"], ["Statement"], ["StatementList", "Statement"], ["StatementList", "FunctionDeclaration"]], 
     "VariableStatement":[["var", "VariableDeclarationList", ";"]], 
     "VariableDeclarationList":[["VariableDeclaration"], ["VariableDeclarationList", ",", "VariableDeclaration"]], 
     "VariableDeclarationListNoIn":[["VariableDeclarationNoIn"], ["VariableDeclarationListNoIn", ",", "VariableDeclarationNoIn"]], 
