@@ -54,7 +54,7 @@
     "Initialiser":[["=", "AssignmentExpression"]], 
     "InitialiserNoIn":[["=", "AssignmentExpressionNoIn"]], 
     "EmptyStatement":[[";"]], 
-    "ExpressionStatement":[["Expression", "[lookahead∉{{,function}]", ";"]], 
+    "ExpressionStatement":[["Expression", "[lookaheadno{{,function}]", ";"]], 
     "IfStatement":[["if", "(", "Expression", ")", "Statement", "else", "Statement"], ["if", "(", "Expression", ")", "Statement"]], 
     "IterationStatement":[["do", "Statement", "while", "(", "Expression", ")", ";"], ["while", "(", "Expression", ")", "Statement"], ["for", "(", "ExpressionNoIn", ";", "Expression", ";", "Expression", ")", "Statement"], ["for", "(", ";", "Expression", ";", "Expression", ")", "Statement"], ["for", "(", "ExpressionNoIn", ";", ";", "Expression", ")", "Statement"], ["for", "(", ";", ";", "Expression", ")", "Statement"], ["for", "(", "ExpressionNoIn", ";", "Expression", ";", ")", "Statement"], ["for", "(", ";", "Expression", ";", ")", "Statement"], ["for", "(", "ExpressionNoIn", ";", ";", ")", "Statement"], ["for", "(", ";", ";", ")", "Statement"], ["for", "(", "var", "VariableDeclarationListNoIn", ";", "Expression", ";", "Expression", ")", "Statement"], ["for", "(", "var", "VariableDeclarationListNoIn", ";", ";", "Expression", ")", "Statement"], ["for", "(", "var", "VariableDeclarationListNoIn", ";", "Expression", ";", ")", "Statement"], ["for", "(", "var", "VariableDeclarationListNoIn", ";", ";", ")", "Statement"], ["for", "(", "LeftHandSideExpression", "in", "Expression", ")", "Statement"], ["for", "(", "var", "VariableDeclarationNoIn", "in", "Expression", ")", "Statement"]], 
     "ContinueStatement":[["continue", ";"], ["continue", "[noLineTerminator]", "Identifier", ";"]], 
@@ -137,7 +137,7 @@ function SyntacticalParser()
                         {
                             if(symbol.match(/\[([^\]]+)\]/))
                             {
-                                if(RegExp.$1 == "lookahead∉{{,function}")
+                                if(RegExp.$1 == "lookaheadno{{,function}")
                                 {
                                     rulenode["$lookahead"] = ["{", "function"];
                                 }
