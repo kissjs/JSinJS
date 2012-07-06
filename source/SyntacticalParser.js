@@ -198,7 +198,7 @@ function SyntacticalParser()
                 this.insertSymbol(new Symbol(";", ";"));
                 return this.insertSymbol(symbol);
             }
-            if(!current[symbol.name] && current[";"] && current[";"]["$reduce"] && (haveLineTerminator || symbol.name == "}"))
+            if(!current[symbol.name] && current[";"] && current[";"]["$reduce"] && current[";"]["$reduce"] != "EmptyStatement" && (haveLineTerminator || symbol.name == "}"))
             {
                 this.insertSymbol(new Symbol(";", ";"));
                 return this.insertSymbol(symbol);
