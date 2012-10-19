@@ -1,4 +1,6 @@
-﻿<script src="../source/Parser.js"></script>
+﻿<script src="../source/LexicalParser.js"></script>
+<script src="../source/SyntacticalParser.js"></script>
+<script src="../source/Parser.js"></script>
 <style>
 .Keyword, .NullLiteral, .BooleanLiteral {
     color:blue;
@@ -48,15 +50,9 @@ document.querySelector("button").onclick = function(){
     function visit(tree) {
         var haveIndent;
 
-        if( last!="return" && (tree.name == "Statement" ||tree.name == "FunctionDeclaration"  ||tree.name == "FunctionExpression")  && tree.childNodes[0].name!="Block") {
-            indent+=4;
-            last = null;
-            haveIndent = true;
-        }
-
         if(tree.token) {
             if( last ){
-                if((tree.token.Identifier || tree.token.Keyword|| tree.token.NumericLiteral|| tree.token.StringLiteral|| tree.token.NullLiteral|| tree.token.BooleanLiteral|| tree.token.RegularExpressionLiteral) && (last.Identifier || last.Keyword|| last.NumericLiteral|| last.StringLiteral|| last.NullLiteral|| last.BooleanLiteral|| last.RegularExpressionLiteral)) output.appendChild(document.createTextNode(" "));;
+                if((tree.token.Identifier || tree.token.Keyword || tree.token.NumericLiteral|| tree.token.StringLiteral|| tree.token.NullLiteral|| tree.token.BooleanLiteral|| tree.token.RegularExpressionLiteral) && (last.Identifier || last.Keyword|| last.NumericLiteral|| last.StringLiteral|| last.NullLiteral|| last.BooleanLiteral|| last.RegularExpressionLiteral || last.Keyword)) output.appendChild(document.createTextNode(" "));;
                 if(tree.token.NumericLiteral && last.name == "." || last.name == "." && tree.token.NumericLiteral) output.appendChild(document.createTextNode(" "));
             }
 

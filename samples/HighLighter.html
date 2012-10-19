@@ -1,4 +1,25 @@
-﻿<script src="../source/Parser.js"></script>
+﻿<script src="../source/LexicalParser.js"></script>
+<script src="../source/SyntacticalParser.js"></script>
+<script src="../source/Parser.js"></script>
+<style>
+.Keyword, .NullLiteral, .BooleanLiteral {
+    color:blue;
+}
+.StringLiteral {
+    color:red;
+}
+.RegularExpressionLiteral {
+    color:red;
+}
+.NumericLiteral {
+    color:purple;
+}
+#output {
+    white-space:pre-wrap;
+}
+</style>
+
+<pre id="output"></pre>
 <textarea id="code" style="width:100%;height:500px;">var bubbleSort = function (array) {
     for (var x = 0; x < array.length; x++) {
         for (var y = 0; y < array.length - x; y++) {
@@ -9,30 +30,26 @@
     }
 }</textarea>
 <button >parse</button>
-<pre id="output"></pre>
 <script>
+
+function getClassName(token) {
+    var classNames = ["InputElement","Comments","SingleLineComments","MultiLineComments","WhiteSpace","Token","IdentifierName","Identifier","Keyword","NullLiteral","BooleanLiteral","Punctuator","NumericLiteral","StringLiteral","RegularExpressionLiteral","LineTerminator"];
+    return classNames.filter(function(e){ return token.hasOwnProperty(e); }).join(" ");
+}
+
 document.querySelector("button").onclick = function(){
     var parser = new Parser();
-    var tree = parser.parse(document.querySelector("#code").value);
 
     var str = "";
     var output = document.querySelector("#output");
-    var indent = 0;
-    function visit(tree) {
-        if(tree.token) { 
-            var token = document.createElement("span");
-            token.appendChild(document.createTextNode(tree.token + " "));
-            output.appendChild(token);
-        }
-        else {
-            var i = tree.childNodes.length;
-            while(i--) {
-                visit(tree.childNodes[i]);
-            }
-        }
-    }
-    visit(tree);
-    
-}
+    output.innerHTML = "";
 
+
+    var tree = parser.parse(document.querySelector("#code").value,function(token){
+            var tokenSpan = document.createElement("span");
+            tokenSpan.className = getClassName(token);
+            tokenSpan.appendChild(document.createTextNode(token));
+            output.appendChild(tokenSpan);
+    });
+};
 </script>
