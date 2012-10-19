@@ -17,15 +17,17 @@
 <script>
 
 var preprocessors = {
-    "VariableDeclarationListNoIn":preprocessVariable,
-    "VariableDeclarationList":preprocessVariable,
+    "VariableDeclarationNoIn":preprocessVariable,
+    "VariableDeclaration":preprocessVariable,
     "FunctionDeclaration":preprocessFunctionDeclaration,
     "FunctionExpression":preprocessFunctionExpression
 }
 var processors = {
+    "Catch":processCatch,
     "FunctionDeclaration":processFunctionDeclaration,
     "FunctionExpression":processFunctionExpression,
     "FunctionBody":processCode,
+    "IdentifierName":processIdentifierName,
     "Program":processCode,
     "FormalParameterList":processParameter,
     "Identifier":processIdentifier
@@ -33,7 +35,7 @@ var processors = {
 
 function preprocessVariable(scope,node) {
     var i = node.childNodes.length;
-    scope.addIdentifier(node.childNodes[0].childNodes[node.childNodes[0].childNodes.length-1].token.toString());
+    scope.addIdentifier(node.childNodes[node.childNodes.length-1].token.toString());
     while(i--) {
         preprocess(scope,node.childNodes[i]);
     }
@@ -63,12 +65,14 @@ function preprocess(scope,node) {
 }
 
 function processParameter(scope,node) {
+    if(!node)
+        debugger;
     var i = node.childNodes.length;
     while(i--) {
         if(node.childNodes[i].token)
             scope.addIdentifier(node.childNodes[i].token.toString());
         else
-            preprocessParameter(node.childNodes[i]);
+            processParameter(scope,node.childNodes[i]);
     }
 }
 function processFunctionExpression(scope,node) {
@@ -80,6 +84,7 @@ function processFunctionExpression(scope,node) {
         }
     }
     scope = new Scope(scope);
+    scope["arguments"] = undefined;
     
     var i = node.childNodes.length;
     while(i--){
@@ -95,7 +100,9 @@ function processFunctionExpression(scope,node) {
     }
 }
 function processFunctionDeclaration(scope,node) {
-    scope = new Scope(scope);    
+    scope = new Scope(scope);
+    scope["arguments"] = undefined;
+ 
     var i = node.childNodes.length;
     while(i--){
         if(node.childNodes[i].name == "FormalParameterList") {
@@ -112,10 +119,29 @@ function processFunctionDeclaration(scope,node) {
 function processIdentifier(scope,node) {
     scope.accessIdentifier(node.token.toString());
 }
+function processIdentifierName(scope,node) {
+    return;
+}
 function processCode(scope,node) {
     preprocess(scope,node);
     var i = node.childNodes.length;
     while(i--)process(scope,node.childNodes[i]);
+}
+function processCatch(scope,node) {
+    scope = new Scope(scope);
+    var i = node.childNodes.length;
+    while(i--){
+        if(node.childNodes[i].name == "Identifier") {
+            scope.addIdentifier(node.childNodes[i].token.toString());
+        }
+    }
+    var i = node.childNodes.length;
+    while(i--){
+        if(node.childNodes[i].name == "FunctionBody") {
+            process(scope,node.childNodes[i]);
+        }        
+    }
+    
 }
 function process(scope,node) {
     if(processors[node.name]) return processors[node.name](scope,node);
@@ -130,7 +156,11 @@ function Scope(parent){
     var table = Object.create(null);
 
     this.accessIdentifier = function(id){
+
+
         if(!this.parent) {
+            if(id=="b")
+                debugger;
             table[id] = undefined;
         }
         else if(!Object.prototype.hasOwnProperty.call(table,id)) {
@@ -148,16 +178,16 @@ function Scope(parent){
 window.onload = function(){
     
     document.querySelector("button").onclick = function(){
-        try {
+        //try {
             var parser = new Parser();
             preprocessr.innerHTML = "";
             var tree = parser.parse(document.querySelector("#code").value);
             var o = new Scope();
             process(o,tree);
             console.log(o.toString());
-        } catch(e) {
-            preprocessr.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
-        }
+        //} catch(e) {
+        //    preprocessr.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
+        //}
     }
 }
 </script>
