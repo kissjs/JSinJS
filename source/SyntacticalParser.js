@@ -72,11 +72,11 @@
     "Catch":[["catch", "(", "Identifier", ")", "Block"]], 
     "Finally":[["finally", "Block"]], 
     "DebuggerStatement":[["debugger", ";"]], 
-    "FunctionDeclaration":[["function", "Identifier", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"], ["function", "Identifier", "(", ")", "{", "FunctionBody", "}"]], 
-    "FunctionExpression":[["function", "Identifier", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"], ["function", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"], ["function", "Identifier", "(", ")", "{", "FunctionBody", "}"], ["function", "(", ")", "{", "FunctionBody", "}"]], 
+    "FunctionDeclaration":[["function", "Identifier", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"],["function", "Identifier", "(", "FormalParameterList", ")", "{", "}"], ["function", "Identifier", "(", ")", "{", "FunctionBody", "}"], ["function", "Identifier", "(", ")", "{", "}"]], 
+    "FunctionExpression":[["function", "Identifier", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"], ["function", "(", "FormalParameterList", ")", "{", "FunctionBody", "}"], ["function", "Identifier", "(", ")", "{", "FunctionBody", "}"], ["function", "(", ")", "{", "FunctionBody", "}"],  ["function", "Identifier", "(", "FormalParameterList", ")", "{", "}"], ["function", "(", "FormalParameterList", ")", "{", "}"], ["function", "Identifier", "(", ")", "{", "}"], ["function", "(", ")", "{", "}"]], 
     "FormalParameterList":[["Identifier"], ["FormalParameterList", ",", "Identifier"]], 
-    "FunctionBody":[["SourceElements"], [""]], 
-    "Program":[["SourceElements"], [""]], 
+    "FunctionBody":[["SourceElements"]], 
+    "Program":[["SourceElements"]], 
     "SourceElements":[["SourceElement"], ["SourceElements", "SourceElement"]], "SourceElement":[["Statement"], ["FunctionDeclaration"]]
     
 };
