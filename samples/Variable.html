@@ -154,14 +154,13 @@ function Scope(parent){
     this.parent = parent || null;
 
     var table = Object.create(null);
-
+    var used = Object.create(null);
     this.accessIdentifier = function(id){
 
 
         if(!this.parent) {
-            if(id=="b")
-                debugger;
-            table[id] = undefined;
+            if(!Object.prototype.hasOwnProperty.call(table,id))
+                used[id] = undefined;
         }
         else if(!Object.prototype.hasOwnProperty.call(table,id)) {
             this.parent.accessIdentifier(id);
@@ -170,8 +169,12 @@ function Scope(parent){
     this.addIdentifier = function(id){
         table[id] = undefined;
     }
-    this.toString = function(){
-        return table;
+
+    this.getUsed = function (){
+        return Object.keys(used);
+    }
+    this.getDeclared = function(){
+        return Object.keys(table);
     }
 }
 
@@ -184,7 +187,9 @@ window.onload = function(){
             var tree = parser.parse(document.querySelector("#code").value);
             var o = new Scope();
             process(o,tree);
-            console.log(o.toString());
+            document.getElementById("declared").innerHTML = o.getDeclared().join(" ");
+            document.getElementById("used").innerHTML = o.getUsed().join(" ");
+
         //} catch(e) {
         //    preprocessr.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
         //}
@@ -193,6 +198,10 @@ window.onload = function(){
 </script>
 </head>
 <body>
+声明的变量：
+<div id="declared"></div>
+使用的变量：
+<div id="used"></div>
 <textarea id="code" style="width:100%;height:500px;"></textarea>
 <button >parse</button>
     <div id="preprocessr">
