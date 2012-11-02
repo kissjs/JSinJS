@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8" />
@@ -84,7 +84,7 @@ function processFunctionExpression(scope,node) {
         }
     }
     scope = new Scope(scope);
-    scope["arguments"] = undefined;
+    scope.addIdentifier("arguments");
     
     var i = node.childNodes.length;
     while(i--){
@@ -101,7 +101,7 @@ function processFunctionExpression(scope,node) {
 }
 function processFunctionDeclaration(scope,node) {
     scope = new Scope(scope);
-    scope["arguments"] = undefined;
+    scope.addIdentifier("arguments");
  
     var i = node.childNodes.length;
     while(i--){
@@ -177,7 +177,23 @@ function Scope(parent){
         return Object.keys(table);
     }
 }
+var globalProps = ["NaN", "Infinity", "undefined", "eval", "parseInt", "parseFloat", "isNaN", "isFinite", "decodeURI", "decodeURIComponent", "encodeURI", "encodeURIComponent", "Object", "Function", "Array", "String", "Boolean", "Number", "Date", "RegExp", "Error", "EvalError", "RangeError", "ReferenceError", "SyntaxError", "TypeError", "URIError","Math"];
+var globalPropsIndex = function(){
+    var r = Object.create(null);
+    for(var i = 0; i<globalProps.length; i++) {
+        r[globalProps[i]] = null; 
+    }
+    return r;
+}();
+var windowProps = ["Range","WebKitBlobBuilder","SVGFEDisplacementMapElement","performance","SVGNumber","HTMLEmbedElement","openDatabase","SVGPathSegLinetoAbs","defaultStatus","SVGUnitTypes","WebGLRenderingContext","onstorage","WebKitIntent","NodeList","onload","HTMLAnchorElement","WebKitMutationObserver","onfocus","TypeError","SVGPathSegLinetoVerticalAbs","innerHeight","MessageChannel","self","SVGCursorElement","MouseEvent","outerHeight","webkitResolveLocalFileSystemURL","screenLeft","postMessage","onmouseover","getMatchedCSSRules","XMLHttpRequestUpload","oncanplay","CSSImportRule","webkitRequestAnimationFrame","WebGLShaderPrecisionFormat","Parser","webkitIDBDatabaseException","onseeking","stop","status","HTMLFrameElement","onvolumechange","HTMLDListElement","webkitConvertPointFromPageToNode","SVGCircleElement","toLocaleString","WebGLTexture","document","Entity","SVGTransform","MimeTypeArray","SVGAnimatedString","CSSStyleSheet","v8Locale","SyntaxError","SVGPathSegCurvetoQuadraticSmoothAbs","clearTimeout","SVGAltGlyphDefElement","EvalError","SVGFETileElement","removeEventListener","HTMLInputElement","DOMParser","SVGAngle","onhashchange","SVGMetadataElement","scrollTo","onratechange","MimeType","Storage","open","webkitAudioPannerNode","SVGFontFaceElement","processParameter","CSSFontFaceRule","SVGImageElement","outerWidth","XPathEvaluator","Worker","globalPropsIndex","HTMLBodyElement","Uint16Array","screen","WebGLShader","DocumentFragment","HTMLTableRowElement","HTMLParamElement","event","HTMLSelectElement","AudioProcessingEvent","OverflowEvent","SVGFEComponentTransferElement","SVGViewElement","HTMLTableCaptionElement","SVGViewSpec","Int32Array","ondragend","clientInformation","HTMLIFrameElement","resizeTo","SVGScriptElement","webkitPostMessage","onwebkittransitionend","__lookupSetter__","WebGLUniformLocation","onselect","SVGGradientElement","blur","TextEvent","SVGGlyphElement","HTMLTableSectionElement","eval","onmouseup","onloadstart","MediaList","SVGFEFloodElement","webkitIDBRequest","processCode","HTMLDocument","HashChangeEvent","CSSValue","external","table","webkitCancelRequestAnimationFrame","HTMLMetaElement","SVGPathSegCurvetoCubicAbs","SVGFEDistantLightElement","toolbar","HTMLAppletElement","WebGLBuffer","SVGLengthList","preprocessors","FormData","SVGMaskElement","webkitIDBTransaction","toString","onchange","Window","RangeException","onwebkitanimationstart","decodeURIComponent","onerror","onkeyup","HTMLLIElement","HTMLFieldSetElement","ondragleave","SVGPathSegLinetoHorizontalAbs","CSSStyleDeclaration","ImageData","UIEvent","Object","name","WebGLFramebuffer","Function","PageTransitionEvent","SVGAnimatedTransformList","SVGTextPositioningElement","CharacterData","frames","CSSMediaRule","Uint8Array","CanvasGradient","webkitIDBCursor","PluginArray","SVGMarkerElement","SVGFontFaceNameElement","XMLHttpRequest","print","crypto","localStorage","locationbar","processFunctionDeclaration","ondrop","PopStateEvent","Uint8ClampedArray","onabort","SVGStopElement","HTMLDivElement","SVGFECompositeElement","HTMLFontElement","webkitMediaStream","ProgressEvent","HTMLLegendElement","SVGPathSegCurvetoCubicSmoothAbs","TouchEvent","ondblclick","PERSISTENT","MutationEvent","processIdentifierName","SVGPathSegArcAbs","menubar","releaseEvents","hasOwnProperty","scrollY","preprocess","SVGFEBlendElement","ArrayBuffer","SVGAnimateColorElement","onemptied","ondragstart","XRegExp","SVGPointList","onpause","MediaStreamEvent","setInterval","KeyboardEvent","CSSPrimitiveValue","SVGPathElement","Text","__lookupGetter__","SVGFEFuncBElement","JSON","SVGMPathElement","SVGUseElement","HTMLMeterElement","SVGFontFaceFormatElement","HTMLParagraphElement","WebGLContextEvent","BeforeLoadEvent","scroll","WebKitCSSKeyframesRule","HTMLKeygenElement","Document","HTMLOptionElement","SVGPathSegClosePath","SVGAnimateElement","ondurationchange","encodeURIComponent","HTMLHRElement","TimeRanges","WebKitPoint","SVGAElement","SVGComponentTransferFunctionElement","Int16Array","SQLException","onmouseout","escape","closed","ondragenter","SVGSymbolElement","SVGDescElement","onsubmit","CloseEvent","webkitRequestFileSystem","HTMLCollection","SharedWorker","rules","scrollbars","Blob","WebKitCSSMatrix","SVGPolylineElement","webkitAudioContext","pageYOffset","SVGPatternElement","parseInt","SVGRectElement","XSLTProcessor","ProcessingInstruction","SVGColor","SVGElementInstanceList","ononline","File","DOMException","HTMLAudioElement","HTMLMarqueeElement","SVGPathSegMovetoAbs","Option","atob","find","SVGPathSegCurvetoCubicRel","SVGTextPathElement","SVGAnimatedRect","SVGPoint","focus","HTMLOptGroupElement","Audio","onsearch","windowPropsIndex","MessagePort","ClientRect","onmousedown","SVGAnimatedNumberList","Node","SVGAnimatedEnumeration","HTMLLinkElement","SVGFontFaceSrcElement","SVGZoomEvent","SVGStringList","SVGGlyphRefElement","WheelEvent","screenY","MediaError","SVGPathSegCurvetoCubicSmoothRel","SVGZoomAndPan","onsuspend","HTMLSpanElement","SVGPathSegLinetoVerticalRel","Comment","prompt","console","HTMLQuoteElement","onloadedmetadata","onwebkitanimationiteration","TEMPORARY","HTMLFormElement","SVGMatrix","DOMStringList","screenTop","HTMLTitleElement","onkeydown","String","onbeforeunload","HTMLUnknownElement","SVGFEFuncAElement","WebGLActiveInfo","HTMLImageElement","NodeFilter","SVGPathSeg","CustomEvent","addEventListener","Number","SVGTitleElement","processCatch","SVGFEConvolveMatrixElement","CSSRule","SVGAltGlyphElement","onpageshow","Float32Array","onoffline","top","SVGAnimateMotionElement","HTMLTableCellElement","SVGAnimatedLengthList","DOMImplementation","CDATASection","MessageEvent","Infinity","propertyIsEnumerable","SVGPreserveAspectRatio","SVGPathSegCurvetoQuadraticSmoothRel","Element","isNaN","XMLSerializer","HTMLHeadingElement","HTMLButtonElement","CanvasRenderingContext2D","SyntacticalParser","StorageEvent","onclick","HTMLTableColElement","webkitIDBFactory","processors","globalProps","SVGFEOffsetElement","SVGSwitchElement","webkitCancelAnimationFrame","SVGElementInstance","onended","Uint32Array","onresize","CSSCharsetRule","SVGRenderingIntent","HTMLStyleElement","SVGLength","EventException","SVGTSpanElement","processIdentifier","webkitConvertPointFromNodeToPage","SVGDocument","Int8Array","HTMLDataListElement","Rect","SVGPaint","SVGAltGlyphItemElement","onplay","SVGFESpecularLightingElement","HTMLBRElement","webkitIntent","webkitIDBKeyRange","SVGAnimatedLength","CompositionEvent","WebGLProgram","preprocessFunctionDeclaration","SVGPathSegCurvetoQuadraticRel","dispatchEvent","personalbar","CSSStyleRule","preprocessVariable","preprocessCode","WebKitCSSTransformValue","WebSocket","Clipboard","XMLDocument","WebKitTransitionEvent","unescape","StyleSheet","SessionDescription","Date","undefined","frameElement","applicationCache","onkeypress","webkitIDBObjectStore","FileList","onmousemove","SVGAnimatedBoolean","getSelection","onloadeddata","SVGAnimatedInteger","webkitIDBDatabase","devicePixelRatio","onstalled","SVGRect","SVGVKernElement","ondeviceorientation","__defineGetter__","setTimeout","Attr","webkitStorageInfo","SVGStyleElement","oninvalid","SVGPolygonElement","ClientRectList","SVGMissingGlyphElement","HTMLHeadElement","getComputedStyle","isFinite","CanvasPattern","processFunctionExpression","Event","btoa","SVGTextElement","ReferenceError","WebKitCSSFilterValue","SVGAnimatedNumber","HTMLMapElement","length","history","preprocessFunctionExpression","SVGFEDiffuseLightingElement","innerWidth","Float64Array","parseFloat","matchMedia","DeviceOrientationEvent","styleMedia","XPathResult","WebKitAnimationEvent","onscroll","OfflineAudioCompletionEvent","HTMLBaseElement","captureEvents","SVGFEGaussianBlurElement","navigator","moveTo","pageXOffset","SVGEllipseElement","resizeBy","SVGSVGElement","scrollX","onmousewheel","SVGSetElement","Selection","webkitIndexedDB","oncanplaythrough","Notation","SVGElement","ErrorEvent","clearInterval","offscreenBuffering","Scope","SVGFEDropShadowElement","SVGFEFuncGElement","scrollBy","RGBColor","HTMLTableElement","location","DOMTokenList","SVGTransformList","onunload","constructor","oninput","Counter","ondragover","showModalDialog","oncontextmenu","SVGHKernElement","FileReader","HTMLCanvasElement","SVGFETurbulenceElement","HTMLFrameSetElement","SVGFEMorphologyElement","HTMLOListElement","webkitIDBIndex","onblur","SVGFEFuncRElement","IceCandidate","XMLHttpRequestException","Notification","DocumentType","SVGFontFaceUriElement","SVGPathSegList","SVGTextContentElement","HTMLProgressElement","webkitURL","WebKitCSSKeyframeRule","screenX","SVGException","SVGFEMergeElement","Boolean","SVGNumberList","HTMLVideoElement","onprogress","HTMLObjectElement","HTMLTextAreaElement","SVGPathSegLinetoRel","confirm","XPathException","CSSPageRule","HTMLModElement","onplaying","Array","alert","HTMLPreElement","SVGGElement","onseeked","TextMetrics","HTMLAllCollection","HTMLUListElement","URIError","SVGFEMergeNodeElement","HTMLHtmlElement","close","DOMSettableTokenList","HTMLScriptElement","SVGFontElement","DOMStringMap","moveBy","Error","SVGRadialGradientElement","SVGClipPathElement","NamedNodeMap","ondrag","NaN","valueOf","ontimeupdate","window","webkitNotifications","FileError","isPrototypeOf","SVGFEColorMatrixElement","SVGAnimateTransformElement","Plugin","SVGPathSegMovetoRel","HTMLLabelElement","onmessage","HTMLElement","onwaiting","HTMLAreaElement","StyleSheetList","defaultstatus","CSSRuleList","onpopstate","SVGDefsElement","SVGFilterElement","windowProps","decodeURI","XMLHttpRequestProgressEvent","WebGLRenderbuffer","SVGAnimatedPreserveAspectRatio","onpagehide","Image","RangeError","parent","SVGFEPointLightElement","chrome","DataView","onreset","EventSource","SVGLinearGradientElement","SVGPathSegArcRel","HTMLMenuElement","SVGTRefElement","SVGPathSegCurvetoQuadraticAbs","RegExp","encodeURI","lex","WebKitCSSRegionRule","HTMLSourceElement","SVGFESpotLightElement","statusbar","onwebkitanimationend","SVGForeignObjectElement","HTMLDirectoryElement","Symbol","v8Intl","MediaController","sessionStorage","CSSValueList","SVGPathSegLinetoHorizontalRel","SpeechInputEvent","HTMLOutputElement","opener","HTMLBaseFontElement","EntityReference","Math","SVGFEImageElement","HTMLMediaElement","LexicalParser","SVGLineElement","SVGAnimatedAngle","process","__defineSetter__","Intl","props","index","webkitRTCPeerConnection","WebKitSourceBufferList","WebKitSourceBuffer","WebKitMediaSource","TrackEvent","TextTrackList","TextTrackCueList","TextTrackCue","TextTrack","HTMLTrackElement","HTMLShadowElement","HTMLContentElement","WebKitShadowRoot","RTCIceCandidate","RTCSessionDescription","IDBVersionChangeEvent","IDBTransaction","IDBRequest","IDBOpenDBRequest","IDBObjectStore","IDBKeyRange","IDBIndex","IDBFactory","IDBDatabaseException","IDBDatabase","IDBCursorWithValue","IDBCursor","indexedDB","URL","Components","XPCNativeWrapper","netscape","InstallTrigger","Location","uneval","InternalError","XMLList","XML","isXMLName","Namespace","QName","Iterator","StopIteration","WeakMap","Map","Set","ScriptEngine","ScriptEngineMajorVersion","ScriptEngineMinorVersion","ScriptEngineBuildVersion","CollectGarbage","Debug","CanvasPixelArray","ActiveXObject","Enumerator","VBArray","BeforeUnloadEvent","BookmarkCollection","CSSNamespaceRule","ControlRangeCollection","Coordinates","DataTransfer","DragEvent","FocusEvent","Geolocation","HTMLAreasCollection","HTMLBGSoundElement","HTMLBlockElement","HTMLDDElement","HTMLDTElement","HTMLIsIndexElement","HTMLNextIdElement","HTMLPhraseElement","HTMLTableDataCellElement","HTMLTableHeaderCellElement","History","MSBehaviorUrnsCollection","MSCSSProperties","MSCSSRuleList","MSCompatibleInfo","MSCompatibleInfoCollection","MSCurrentStyleCSSProperties","MSEventObj","MSMimeTypesCollection","MSNamespaceInfo","MSNamespaceInfoCollection","MSPluginsCollection","MSPopupWindow","MSSelection","MSSiteModeEvent","MSStyleCSSProperties","MouseWheelEvent","Navigator","NodeIterator","Performance","PerformanceNavigation","PerformanceTiming","Position","PositionError","Screen","StyleMedia","StyleSheetPageList","TextRange","TextRangeCollection","TreeWalker","XDomainRequest","__IE_DEVTOOLBAR_CONSOLE_COMMAND_LINE"];
 
+var windowPropsIndex = function(){
+    var r = Object.create(null);
+    for(var i = 0; i<windowProps.length; i++) {
+        r[windowProps[i]] = null; 
+    }
+    return r;
+}();
 window.onload = function(){
     
     document.querySelector("button").onclick = function(){
@@ -188,7 +204,15 @@ window.onload = function(){
             var o = new Scope();
             process(o,tree);
             document.getElementById("declared").innerHTML = o.getDeclared().join(" ");
-            document.getElementById("used").innerHTML = o.getUsed().join(" ");
+            document.getElementById("used").innerHTML = o.getUsed().filter(function(e){
+                return !Object.prototype.hasOwnProperty.call(globalPropsIndex,e) && !Object.prototype.hasOwnProperty.call(windowPropsIndex,e);
+            }).join(" ");
+            document.getElementById("es").innerHTML = o.getUsed().filter(function(e){
+                return Object.prototype.hasOwnProperty.call(globalPropsIndex,e);
+            }).join(" ");
+            document.getElementById("browser").innerHTML = o.getUsed().filter(function(e){
+                return Object.prototype.hasOwnProperty.call(windowPropsIndex,e);
+            }).join(" ");
 
         //} catch(e) {
         //    preprocessr.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
@@ -201,6 +225,13 @@ window.onload = function(){
 声明的变量：
 <div id="declared"></div>
 使用的变量：
+<br/>
+<a  style="color:darkgreen;cursor:pointer;" onclick="document.getElementById('es').style.display=document.getElementById('es').style.display=='block'?'none':'block';">原生</a> 
+<div id="es" style="color:darkgreen;display:none;"></div>
+
+<a  style="color:darkgreen;cursor:pointer;" onclick="document.getElementById('browser').style.display=document.getElementById('browser').style.display=='block'?'none':'block';">浏览器</a> 
+<div id="browser" style="color:darkgreen;display:none;"></div>
+
 <div id="used"></div>
 <textarea id="code" style="width:100%;height:500px;"></textarea>
 <button >parse</button>
