@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>javascript grammar tree visualizer</title>
+<style>
+.symbolName {
+    display:block;
+}
+.childContainer {
+    padding-left:30px;
+}
+</style>
+<script src="../source/LexicalParser.js"></script>
+<script src="../source/SyntacticalParser.js"></script>
+<script src="../source/Parser.js"></script>
+
+<script src="./cases.js"></script>
+<script>
+
+var special = {
+    "Program":visualizeRoot,
+    "SourceElements":visualizeList,
+    "ElementList":visualizeList,
+    "PropertyNameAndValueList":visualizeList,
+    "ArgumentList":visualizeList,
+    "StatementList":visualizeList,
+    "VariableDeclarationListNoIn":visualizeList,
+    "VariableDeclarationList":visualizeList,
+    "FormalParameterList":visualizeList
+}
+
+function visualizeList(container,node) {
+    var i = node.childNodes.length;    
+    while(i--)visualize(container,node.childNodes[i]);            
+}
+function visualizeRoot(container,node) {
+    var title = document.createElement("span");
+    title.className = "symbolName";
+    title.innerText = node.name + (node.token!=undefined && node.name!=node.token?":"+node.token:"")
+    container.appendChild(title);
+    var div = document.createElement("div");
+    div.className = "childContainer";
+    var i = node.childNodes.length;
+    container.appendChild(div);
+    while(i--)visualize(div,node.childNodes[i]);
+}
+
+function visualize(container,node) {
+    if(special[node.name]) return special[node.name](container,node);
+
+    if(node.childNodes.length == 1 && !node.token) 
+        return visualize(container,node.childNodes[0]); 
+
+    var title = document.createElement("span");
+    title.className = "symbolName";
+    title.innerText = node.name + (node.token!=undefined && node.name!=node.token?":"+node.token:"")
+    container.appendChild(title);
+    var div = document.createElement("div");
+    div.className = "childContainer";
+    var i = node.childNodes.length;
+    container.appendChild(div);
+    while(i--)visualize(div,node.childNodes[i]);
+}
+
+window.onload = function(){
+    var i = 0;
+    function add(){
+        if(i >= cases.length)
+            return;
+        var tcase = cases[i++];
+        var row = document.createElement("tr");
+        var cell = document.createElement("td");
+        cell.innerHTML = tcase;
+        row.appendChild(cell);
+        
+        try {
+            var parser = new Parser();
+            var tree = parser.parse(tcase);
+            var cell = document.createElement("td");
+
+            visualize(cell,tree);
+            row.appendChild(cell);
+        } catch(e) {
+            var cell = document.createElement("td");
+            cell.innerHTML = "<span style=\"color:red;\">"+e+"</span>"
+            row.appendChild(cell);
+            document.querySelector("#rowcontainer").appendChild(row);
+        }
+
+        setTimeout(add,10);
+    }
+    add();
+}
+</script>
+</head>
+<body>
+<textarea id="code" style="width:100%;height:50px;"></textarea>
+<button >next</button>
+<table>
+<table border="1" cellspacing="0" cellpadding="0" style="BORDER-COLLAPSE: collapse">
+    <tbody id="rowcontainer">
+        <tr><th>case</th><th>result</th></tr>
+    </tbody>
+</table>
+    
+</body>
+</html>
